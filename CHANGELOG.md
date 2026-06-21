@@ -4,6 +4,12 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/)，版本号为产品内部迭代号（非 npm 语义化版本）。
 
+## [0.7.1] - 2026-06-21 · 应用图标
+
+- 新增正式 App 图标（影棚 + 人物 + 紫色光圈），替换 Tauri 默认占位 logo；由 `app-icon.png`（1024×1024）经 `npx tauri icon` 生成全套 macOS 图标。
+- 顶栏版本号 `v0.7.0 → v0.7.1`；`package.json` / `tauri.conf.json` / `Cargo.toml` 版本同步到 `0.7.1`。
+- 移除 `tauri icon` 顺带生成的 iOS / Android 图标（本项目只发 macOS 桌面）。
+
 ## [0.7.0] - 2026-06-21 · 可开源第一版
 
 可开源第一版收口。功能与 v0.6e 一致，新增开源工程化收口：

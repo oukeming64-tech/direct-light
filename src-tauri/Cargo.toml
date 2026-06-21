@@ -1,6 +1,6 @@
 [package]
 name = "direct-light"
-version = "0.7.0"
+version = "0.7.1"
 description = "Direct Light — white-studio lighting previz sandbox"
 authors = ["Keming Ou"]
 license = "MIT"
