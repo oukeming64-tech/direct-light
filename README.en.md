@@ -8,6 +8,10 @@
 
 A frontend-only web app, no backend. It optimizes for **communication, real-time feedback, and readability** — not physically accurate rendering.
 
+![Direct Light demo: adjust the camera position, then switch to the through-lens view and watch the framing and lighting update live](docs/media/hero.gif)
+
+> *Adjust the camera position → switch to the "lens" view and the camera's actual frame updates in real time. [Live demo](https://oukeming64-tech.github.io/direct-light/) ｜ [Desktop download](https://github.com/oukeming64-tech/direct-light/releases)*
+
 ## Features
 
 - 🎬 **Studio + people** — adjustable white studio (size, wall/ceiling toggles, seamless cyclorama, wall/floor reflectance), a rigged simplified figure, multi-actor blocking (up to 5), pose presets and joint tuning.

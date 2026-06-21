@@ -10,6 +10,10 @@
 
 纯前端 Web 应用，无后端依赖。强调**沟通向、实时、可读**，而不是物理级精确渲染。
 
+![Direct Light 演示：调整摄影机机位后切到「镜头」视角，画面与光影实时变化](docs/media/hero.gif)
+
+> *调整摄影机机位 → 切到「镜头」视角，相机实拍画面随之实时变化。[在线 demo](https://oukeming64-tech.github.io/direct-light/) ｜ [桌面版下载](https://github.com/oukeming64-tech/direct-light/releases)*
+
 ## 功能特性
 
 - 🎬 **白棚 + 人物**：可调白棚（尺寸、墙/顶开关、无缝弧形背景、墙地反射），层级骨架假人，多人站位（上限 5），基础姿态预设与关键关节微调。
