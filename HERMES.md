@@ -27,7 +27,7 @@ Before touching code, read:
 15. `V0_6E_CLOSEOUT_SPEC.md` — completed v0.6e closeout scope. User visual acceptance passed on 2026-06-21; v0.6 control line is complete.
 16. Relevant source files for the assigned task.
 
-Do not rely on stale assumptions from earlier versions. Current state is v0.6a/b/c/d/e user-accepted; next is v0.7 open-source-ready first release / optional desktop packaging, led by Claude Code. Hermes has no active v0.7 task unless a concrete subtask with exact write scope is assigned.
+Do not rely on stale assumptions from earlier versions. Current state is v0.7.1: the project is public on GitHub, GitHub Pages auto-deploy is live, Tauri macOS packaging is set up, and v0.7.1 is the latest published Release with the official app icon. v0.6a/b/c/d/e and v0.7/v0.7.1 are complete. Hermes has no active task unless a concrete subtask with exact write scope is assigned; likely future work is v0.8 multilingual UI or v0.9 more lights / multi-light management.
 
 ## 2. Role Boundary
 
@@ -175,12 +175,12 @@ Good candidates:
 - Small follow-up fixes from v0.4.7 user acceptance, only if the user reports a concrete issue.
 - ~~Store/action split subtasks.~~ ✅ Done in v0.4.8 by Claude (glm-5.2 drafted the 8 factory files). Do not redo it.
 - v0.5.1 acceptance fixes only when assigned, strictly per the user's concrete bug report. Do not redo `studioGeometry.ts`, `LightVisual.tsx`, `LightRig` wiring, or reflectance formulas.
-- v0.6 is complete and user-accepted. Hermes must not change modifier numbers, formulas, director-brief copy, gear presets, `controlGearOptics` values, `sceneDiff` gear split, `MAX_LIGHTS`, or v0.6 docs unless Codex/Claude assigns a concrete regression fix. v0.7 is Claude-led; Hermes may draft only explicitly assigned small docs/package/helper patches and must not own or announce the release.
+- v0.6 and v0.7/v0.7.1 are complete and accepted/published. Hermes must not change modifier numbers, formulas, director-brief copy, gear presets, `controlGearOptics` values, `sceneDiff` gear split, `MAX_LIGHTS`, release metadata, desktop packaging config, or v0.6/v0.7 docs unless Codex/Claude assigns a concrete regression fix or docs-sync patch. Future v0.8/v0.9 work may be drafted only when assigned with exact scope; Hermes must not own or announce a release.
 - Architecture split subtasks only when assigned by exact file. Hermes must not perform broad refactors, move folders, or collapse `src/ui/light-panel/*`, `src/ui/object-list/*`, or `src/app/compare/*` back into the old shell files.
 
 ## 7.4 ✅ DONE + USER ACCEPTED — v0.6e closeout (handoff 2026-06-21)
 
-v0.6e passed user visual acceptance on 2026-06-21. The accepted scope is: A/B diff has a separate `gear` / 「控光器材」 category, save/load/duplicate/A-B/export regressions are accepted, README has the open-source-limit note, and TopBar is now `v0.6e`. Hermes did not own this feature and must not rework it. Next version is v0.7, led by Claude Code; Hermes only handles exact small subtasks if assigned.
+v0.6e passed user visual acceptance on 2026-06-21. The accepted scope is: A/B diff has a separate `gear` / 「控光器材」 category, save/load/duplicate/A-B/export regressions are accepted, README has the open-source-limit note, and TopBar was then `v0.6e`. Hermes did not own this feature and must not rework it. The later v0.7/v0.7.1 open-source and desktop-packaging work is also complete; Hermes only handles exact small subtasks if assigned.
 
 ## 7.3 ✅ DONE + USER ACCEPTED — v0.6d `controlGearOptics` (handoff 2026-06-21)
 

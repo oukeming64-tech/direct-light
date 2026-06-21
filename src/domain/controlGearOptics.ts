@@ -2,8 +2,9 @@
 //
 // This file implements the geometric / optical helpers used by the scene to
 // approximate what an in-front-of-light flag / reflector board / diffusion
-// frame does to a light's effective quality. It is NOT plumbed yet; integration
-// into LightRig / lighting.ts / StudioScene is Claude's responsibility.
+// frame does to a light's effective quality. It is wired through LightRig,
+// lighting.ts, and StudioScene; keep it pure and do not write derived optics
+// back into SceneConfig.
 //
 // Numerical values and thresholds come from V0_6D_OPTICS_SPEC.md. Do not tune
 // here without updating that spec first.
