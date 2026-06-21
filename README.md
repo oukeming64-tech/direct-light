@@ -1,6 +1,9 @@
 # Direct Light · 白棚灯光预演
 
-
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/live%20demo-online-brightgreen.svg)](https://oukeming64-tech.github.io/direct-light/)
+[![Latest release](https://img.shields.io/github/v/release/oukeming64-tech/direct-light)](https://github.com/oukeming64-tech/direct-light/releases)
+[![Desktop: Tauri 2](https://img.shields.io/badge/desktop-Tauri%202-24c8db.svg)](https://tauri.app/)
 
 > 一个面向导演、摄影指导和灯光师的白棚灯光预演沙盘。在标准白色影棚里，实时预览人物站位、灯位、灯具、控光附件、白光与彩色光对人物和阴影的影响。
 >
@@ -8,11 +11,17 @@
 
 **🔗 在线 demo：https://oukeming64-tech.github.io/direct-light/** —— 免安装、手机也能开，随 `main` 分支自动更新。
 
-纯前端 Web 应用，无后端依赖。强调**沟通向、实时、可读**，而不是物理级精确渲染。
+纯前端 Web 应用，无后端依赖。强调**沟通向、实时、可读**，而不是物理级精确渲染。区别于重型 3D / 付费布光软件，它即开即用、免安装，专为前期和团队沟通灯光方案而做。
 
 ![Direct Light 演示：调整摄影机机位后切到「镜头」视角，画面与光影实时变化](docs/media/hero.gif)
 
 > *调整摄影机机位 → 切到「镜头」视角，相机实拍画面随之实时变化。[在线 demo](https://oukeming64-tech.github.io/direct-light/) ｜ [桌面版下载](https://github.com/oukeming64-tech/direct-light/releases)*
+
+## 截图
+
+| 灯位放低 → 地面投影拉长 | 彩色光染白整个白棚 | 切到摄影机镜头视角 |
+| :---: | :---: | :---: |
+| ![低灯位的长地面投影](docs/media/shot-shadow.png) | ![绿色彩光与柔光箱染棚](docs/media/shot-color.png) | ![镜头取景的人物画面](docs/media/shot-lens.png) |
 
 ## 功能特性
 
