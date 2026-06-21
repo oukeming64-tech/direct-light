@@ -1,0 +1,58 @@
+name: Release Desktop App (macOS)
+
+# Build the Tauri macOS app and attach it to a GitHub Release.
+# Trigger by pushing a version tag, e.g.  git tag v0.7.0 && git push origin v0.7.0
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+# Needed to create the release and upload the .dmg/.app assets.
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Rust (with Intel + Apple Silicon targets)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build app and publish release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Universal binary runs on both Apple Silicon and Intel Macs.
+          args: --target universal-apple-darwin
+          tagName: ${{ github.ref_name }}
+          releaseName: "Direct Light ${{ github.ref_name }}"
+          releaseBody: |
+            白棚灯光预演 · 桌面版（macOS，未签名）。
+
+            首次打开若被 Gatekeeper 拦截：系统设置 → 隐私与安全性 → 拉到底 →「仍要打开」。
+
+            Unsigned macOS build. On first launch, if blocked: System Settings → Privacy & Security → "Open Anyway".
+
+            在线网页版 / Live web demo: https://oukeming64-tech.github.io/direct-light/
+          releaseDraft: true
+          prerelease: false

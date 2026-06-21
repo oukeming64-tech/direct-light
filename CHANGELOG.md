@@ -13,6 +13,7 @@
 - README 顶部新增「快速开始 / 项目结构 / 已知限制 / 许可证」开源门面，原产品需求文档保留在下方。
 - 清理仓库杂物，规范 `.gitignore`，初始化 git 仓库并开源到公开仓库。
 - 新增 GitHub Actions 自动部署：每次 push 到 `main` 自动构建并发布在线 demo —— https://oukeming64-tech.github.io/direct-light/ （`vite.config.ts` 生产构建使用 `base: '/direct-light/'`，开发仍在根路径）。
+- 新增 macOS 桌面封包（[Tauri](https://tauri.app/)）：`src-tauri/` 脚手架 + `build:tauri` 脚本（`--mode tauri` → 相对 `base`）+ `.github/workflows/release.yml`（push `v*` tag → macOS runner 构建通用包 → 挂到 Releases 草稿）。桌面版与网页版同一套前端代码。
 - 顶栏版本号 `v0.6e → v0.7.0`。
 
 已知限制：最多 3 盏灯、UI 仅简体中文、桌面优先、渲染为沟通向近似（见 README）。

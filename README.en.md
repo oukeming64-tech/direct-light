@@ -41,9 +41,25 @@ npm run lint       # eslint
 npm run preview    # preview the production build
 ```
 
+## Desktop app (macOS)
+
+Besides the web version, Direct Light can be packaged as a macOS desktop app via [Tauri](https://tauri.app/) (small bundle, uses the system WebView).
+
+- **Download**: grab the `.dmg` from [Releases](https://github.com/oukeming64-tech/direct-light/releases) (universal binary — Apple Silicon & Intel).
+- **First launch blocked** (the app is unsigned): System Settings → Privacy & Security → "Open Anyway".
+- **Build it yourself** (needs the [Rust](https://www.rust-lang.org/tools/install) toolchain + Xcode Command Line Tools):
+
+  ```bash
+  npm install
+  npm run tauri dev     # live desktop dev
+  npm run tauri build   # outputs .app / .dmg to src-tauri/target/release/bundle/
+  ```
+
+- **Releasing**: push a `v*` tag (`git tag v0.7.0 && git push origin v0.7.0`); GitHub Actions builds the universal app on a macOS runner and attaches it to a Release (draft by default).
+
 ## Tech stack
 
-Vite · React 19 · TypeScript · React Three Fiber + drei (Three.js) · Zustand · Tailwind CSS.
+Vite · React 19 · TypeScript · React Three Fiber + drei (Three.js) · Zustand · Tailwind CSS · Tauri (desktop packaging).
 
 ## Project structure
 

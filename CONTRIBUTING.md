@@ -26,6 +26,8 @@ npm run lint       # eslint .
 npm run preview    # 本地预览已构建的产物
 ```
 
+桌面版（Tauri，可选，需 [Rust](https://www.rust-lang.org/tools/install) 工具链 + Xcode CLT）：`npm run tauri dev` 实时调试、`npm run tauri build` 出 `.app`/`.dmg`。代码在 `src-tauri/`，发版 CI 见 `.github/workflows/release.yml`，细节见 README「桌面版（macOS）」。
+
 提交前请确保三件事都通过：**`npx tsc -b` · `npm run lint` · `npm run build`**。
 
 ## 代码结构在哪里

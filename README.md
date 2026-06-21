@@ -41,9 +41,25 @@ npm run lint       # eslint
 npm run preview    # 预览构建产物
 ```
 
+## 桌面版（macOS）
+
+除了网页版，Direct Light 也能打包成 macOS 桌面应用（基于 [Tauri](https://tauri.app/)，体积小、用系统自带 WebView）。
+
+- **下载**：见 [Releases](https://github.com/oukeming64-tech/direct-light/releases) 页的 `.dmg`（通用包，Apple Silicon / Intel 通用）。
+- **首次打开被拦**（应用未签名）：系统设置 → 隐私与安全性 → 拉到底 →「仍要打开」。
+- **自行构建**（需 [Rust](https://www.rust-lang.org/tools/install) 工具链 + Xcode 命令行工具）：
+
+  ```bash
+  npm install
+  npm run tauri dev     # 本地实时调试桌面版
+  npm run tauri build   # 产出 .app / .dmg 到 src-tauri/target/release/bundle/
+  ```
+
+- **发版**：push 一个 `v*` tag（如 `git tag v0.7.0 && git push origin v0.7.0`），GitHub Actions 会在 macOS runner 上构建通用包并挂到 Releases（默认草稿，确认后发布）。
+
 ## 技术栈
 
-Vite · React 19 · TypeScript · React Three Fiber + drei（Three.js）· Zustand · Tailwind CSS。
+Vite · React 19 · TypeScript · React Three Fiber + drei（Three.js）· Zustand · Tailwind CSS · Tauri（桌面封包）。
 
 ## 项目结构
 
