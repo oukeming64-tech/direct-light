@@ -4,6 +4,8 @@
 >
 > A white-studio lighting previz sandbox for directors, DPs, and gaffers. 👉 English readme: [`README.en.md`](README.en.md)
 
+**🔗 在线 demo：https://oukeming64-tech.github.io/direct-light/** —— 免安装、手机也能开，随 `main` 分支自动更新。
+
 纯前端 Web 应用，无后端依赖。强调**沟通向、实时、可读**，而不是物理级精确渲染。
 
 ## 功能特性
@@ -17,6 +19,8 @@
 - 🔀 **A/B 对比 · 保存 · 导出**：方案保存到浏览器 localStorage，A/B 冻结对比带差异摘要，导出预览图用于团队沟通。
 
 ## 快速开始
+
+不想本地跑？直接打开 [在线 demo](https://oukeming64-tech.github.io/direct-light/) 即可。本地开发：
 
 前置：**Node.js >= 20.19**（推荐 20 / 22 LTS）+ npm。
 

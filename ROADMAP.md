@@ -657,7 +657,7 @@ type FixturePreset = {
 
 ## 8. v0.7 可开源第一版 / 桌面封包
 
-> 状态：✅ 可开源第一版已落地（Claude Code 主导，2026-06-21）。新增 MIT `LICENSE`、`CONTRIBUTING.md`、`CHANGELOG.md`、英文 `README.en.md`；`README.md` 顶部加开源门面；`package.json` 元数据补齐并升到 `0.7.0`；清理杂物 + `.gitignore` 收紧；顶栏 `v0.6e → v0.7.0`；`tsc·lint·build` 全绿；`git init` 后**已开源到公开仓库 https://github.com/oukeming64-tech/direct-light** （v0.7.0 首个公开发布）。本轮与用户拍板：MIT、署名 Keming Ou、GitHub 账号 `oukeming64-tech`、个人复盘 `个人重构/` 保留在本地不开源（已 gitignore）、**桌面封包暂不做**（留作后续可选 v0.7.x，为下一议题）、补英文 README。详见 `COLLABORATION.md` v0.7.0 版本记录。
+> 状态：✅ 可开源第一版已落地（Claude Code 主导，2026-06-21）。新增 MIT `LICENSE`、`CONTRIBUTING.md`、`CHANGELOG.md`、英文 `README.en.md`；`README.md` 顶部加开源门面；`package.json` 元数据补齐并升到 `0.7.0`；清理杂物 + `.gitignore` 收紧；顶栏 `v0.6e → v0.7.0`；`tsc·lint·build` 全绿；`git init` 后**已开源到公开仓库 https://github.com/oukeming64-tech/direct-light** （v0.7.0 首个公开发布）。**在线 demo 经 GitHub Actions 自动部署到 GitHub Pages**（push `main` 即更新）：https://oukeming64-tech.github.io/direct-light/ 。本轮与用户拍板：MIT、署名 Keming Ou、GitHub 账号 `oukeming64-tech`、个人复盘 `个人重构/` 保留在本地不开源（已 gitignore）、**桌面封包暂不做**（留作后续可选 v0.7.x，为下一议题）、补英文 README。详见 `COLLABORATION.md` v0.7.0 版本记录。
 
 ### 目标
 

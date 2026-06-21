@@ -11,7 +11,8 @@
 - 新增 `LICENSE`（MIT）、`CONTRIBUTING.md`、`CHANGELOG.md`、英文 `README.en.md`。
 - `package.json` 补齐开源元数据（描述、license、author、repository、keywords、`engines`），版本号 `0.7.0`。
 - README 顶部新增「快速开始 / 项目结构 / 已知限制 / 许可证」开源门面，原产品需求文档保留在下方。
-- 清理仓库杂物，规范 `.gitignore`，初始化 git 仓库。
+- 清理仓库杂物，规范 `.gitignore`，初始化 git 仓库并开源到公开仓库。
+- 新增 GitHub Actions 自动部署：每次 push 到 `main` 自动构建并发布在线 demo —— https://oukeming64-tech.github.io/direct-light/ （`vite.config.ts` 生产构建使用 `base: '/direct-light/'`，开发仍在根路径）。
 - 顶栏版本号 `v0.6e → v0.7.0`。
 
 已知限制：最多 3 盏灯、UI 仅简体中文、桌面优先、渲染为沟通向近似（见 README）。

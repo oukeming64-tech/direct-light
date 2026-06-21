@@ -4,6 +4,8 @@
 >
 > 中文文档（主文档）: [`README.md`](README.md)
 
+**🔗 Live demo: https://oukeming64-tech.github.io/direct-light/** — no install, works on mobile too, auto-updated on every push to `main`.
+
 A frontend-only web app, no backend. It optimizes for **communication, real-time feedback, and readability** — not physically accurate rendering.
 
 ## Features
@@ -17,6 +19,8 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 - 🔀 **A/B compare · save · export** — presets saved to browser localStorage, frozen A/B compare with a difference summary, and preview-image export for sharing with the crew.
 
 ## Quick start
+
+Prefer not to run it locally? Just open the [live demo](https://oukeming64-tech.github.io/direct-light/). To develop locally:
 
 Requires **Node.js >= 20.19** (20 / 22 LTS recommended) + npm.
 
