@@ -37,6 +37,17 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      # No Cargo.lock is committed, so each build re-resolves Rust deps. The
+      # upstream `time` 0.3.50 (released 2026-06-22) fails to compile against the
+      # resolved `time-macros` (unresolved import `time_macros::timestamp`).
+      # Generate a lockfile and pin `time` back to 0.3.49 so the build is
+      # deterministic. Remove this once upstream `time` is fixed.
+      - name: Pin time crate (workaround upstream time 0.3.50 breakage)
+        working-directory: src-tauri
+        run: |
+          cargo generate-lockfile
+          cargo update -p time --precise 0.3.49
+
       - name: Build app and publish release
         uses: tauri-apps/tauri-action@v0
         env:
