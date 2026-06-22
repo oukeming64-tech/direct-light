@@ -26,7 +26,7 @@ npm run lint       # eslint .
 npm run preview    # 本地预览已构建的产物
 ```
 
-桌面版（Tauri，可选，需 [Rust](https://www.rust-lang.org/tools/install) 工具链 + Xcode CLT）：`npm run tauri dev` 实时调试、`npm run tauri build` 出 `.app`/`.dmg`。代码在 `src-tauri/`，发版 CI 见 `.github/workflows/release.yml`，细节见 README「桌面版（macOS）」。
+桌面版（Tauri，可选，需 [Rust](https://www.rust-lang.org/tools/install) 工具链 + Xcode CLT）：`npm run tauri dev` 实时调试、`npm run tauri build` 出 `.app`/`.dmg`。代码在 `src-tauri/`，发版 CI 见 `.github/workflows/release.yml`，细节见 README「桌面版（macOS）」。Rust 依赖由提交的 `src-tauri/Cargo.lock` 锁定以保证构建可复现（避免上游 patch 漂移导致 CI 失败）；需要刷新锁文件时手动运行 Actions 里的「Update Cargo.lock」工作流（`.github/workflows/lockfile.yml`），不要在 `release.yml` 里临时 `cargo generate-lockfile`。
 
 提交前请确保三件事都通过：**`npx tsc -b` · `npm run lint` · `npm run build`**。
 
