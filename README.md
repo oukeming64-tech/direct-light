@@ -17,6 +17,16 @@
 
 > *调整摄影机机位 → 切到「镜头」视角，相机实拍画面随之实时变化。[在线 demo](https://oukeming64-tech.github.io/direct-light/) ｜ [桌面版下载](https://github.com/oukeming64-tech/direct-light/releases)*
 
+## 版本
+
+**当前版本：`v1.0.0` —— 首个正式版（2026-06-24）。** 白棚灯光预演的核心功能已全部就绪，并完整支持简体中文 / English / 日本語 运行时切换。
+
+- 🌐 **在线版**：<https://oukeming64-tech.github.io/direct-light/> —— 免安装，随 `main` 自动更新。
+- 🖥️ **macOS 桌面版**：[v1.0.0 Release](https://github.com/oukeming64-tech/direct-light/releases/latest) 的 `.dmg`（Apple Silicon / Intel 通用，未签名，首次打开见下方说明）。
+- 📜 完整逐版更新见 [`CHANGELOG.md`](CHANGELOG.md)。
+
+从一个简单原型起步，经过 v0.2–v0.10 十余个迭代（多人物、结构道具、人物姿态、灯具预设、控光附件与棚内器材、摄影机控制、更多光源、自定义灯具导入导出、多语言 UI），现作为首个正式版发布。
+
 ## 截图
 
 | 灯位放低 → 地面投影拉长 | 彩色光染白整个白棚 | 切到摄影机镜头视角 |
@@ -91,7 +101,7 @@ Vite · React 19 · TypeScript · React Three Fiber + drei（Three.js）· Zusta
 
 完整模块边界与护栏见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。贡献流程见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
-## 已知限制（第一版）
+## 已知限制与设计取舍
 
 - 最多 6 盏灯（`MAX_LIGHTS = 6`）；默认场景仍是 Key/Fill/Rim 三盏（v0.8 多灯管理）。
 - 自定义灯具器械（v0.9）：可「存当前灯为器械」、本地保存、JSON 导入/导出；但自定义器械只存本地（localStorage），跨设备 / 分享需用「导出 / 导入」手动搬运。
