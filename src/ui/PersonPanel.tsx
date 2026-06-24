@@ -1,4 +1,5 @@
 import { useStore } from '../state/store'
+import { PERSON_MODELS } from '../data/personModels'
 import { buildSupportBinding, CLEAR_SUPPORT_BINDING, getPersonSupportSurfaces } from '../domain/supportSurfaces'
 import { DEFAULT_POSE, POSE_PRESETS, SEATED_HIP_HEIGHT } from '../data/poses'
 import type { PoseConfig } from '../types'
@@ -65,6 +66,13 @@ export function PersonPanel({ id }: { id: string }) {
     }
   }
 
+  const activeVariant = person.modelVariant ?? PERSON_MODELS[0]?.id ?? 'dummy'
+  const poseDisabled = activeVariant !== 'dummy'
+  const modelOptions = [
+    { id: 'dummy', label: t('personPanel.modelVariant.dummy') },
+    ...PERSON_MODELS.map(m => ({ id: m.id, label: m.label })),
+  ]
+
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       <Header title={person.name} subtitle={t('personPanel.subtitle')} />
@@ -125,6 +133,7 @@ export function PersonPanel({ id }: { id: string }) {
           </button>
         </div>
       </PanelSection>
+      <div className={poseDisabled ? 'pointer-events-none select-none opacity-40' : ''}>
       <PanelSection title={t('personPanel.section.pose')}>
         <Field label={t('personPanel.posePreset')}>
           <select
@@ -157,7 +166,25 @@ export function PersonPanel({ id }: { id: string }) {
         <Slider label={t('personPanel.rightForearmBend')} min={0} max={150} step={1} unit="°" value={pose.rightForearmBend} onChange={(v) => setPose({ rightForearmBend: v })} format={(v) => v.toFixed(0)} />
         <Slider label={t('personPanel.rightForearmYaw')} min={-90} max={90} step={1} unit="°" value={pose.rightForearmYaw} onChange={(v) => setPose({ rightForearmYaw: v })} format={(v) => v.toFixed(0)} />
       </PanelSection>
+      </div>
       <PanelSection title={t('personPanel.section.appearance')}>
+        <Field label={t('personPanel.modelVariant')}>
+          <div className="flex max-h-28 flex-col gap-0.5 overflow-y-auto rounded-lg bg-zinc-900/60 p-1">
+            {modelOptions.map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => updatePerson(id, { modelVariant: opt.id })}
+                className={`rounded-md px-3 py-1.5 text-left text-xs transition ${
+                  activeVariant === opt.id
+                    ? 'bg-violet-600 text-white'
+                    : 'text-zinc-300 hover:bg-zinc-700/60'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </Field>
         <ColorField label={t('personPanel.skinTone')} value={person.skinTone} onChange={(v) => updatePerson(id, { skinTone: v })} />
         <ColorField label={t('personPanel.clothingColor')} value={person.clothingColor} onChange={(v) => updatePerson(id, { clothingColor: v })} />
         <Toggle label={t('personPanel.showFacePlane')} checked={person.showFacePlane} onChange={(v) => updatePerson(id, { showFacePlane: v })} />

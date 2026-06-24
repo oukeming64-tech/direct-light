@@ -1,9 +1,11 @@
-import { useMemo } from 'react'
+import { useMemo, Suspense } from 'react'
 import * as THREE from 'three'
 import type { ThreeEvent } from '@react-three/fiber'
 import type { PersonConfig } from '../types'
 import { PERSON_MATERIAL } from '../data/rendering'
 import { DEFAULT_POSE } from '../data/poses'
+import { PersonGLB } from './PersonGLB'
+import { PERSON_MODELS } from '../data/personModels'
 
 type Props = {
   person: PersonConfig
@@ -44,7 +46,7 @@ function proportions(height: number) {
   }
 }
 
-export function Person({ person, selected, onSelect, onPointerDown }: Props) {
+export function PersonDummy({ person, selected, onSelect, onPointerDown }: Props) {
   const p = useMemo(() => proportions(person.height), [person.height])
   const skin = { color: person.skinTone, roughness: PERSON_MATERIAL.skinRoughness, metalness: 0 }
   const cloth = { color: person.clothingColor, roughness: PERSON_MATERIAL.clothingRoughness, metalness: 0 }
@@ -187,5 +189,17 @@ export function Person({ person, selected, onSelect, onPointerDown }: Props) {
         </mesh>
       )}
     </group>
+  )
+}
+
+// Dispatches to the GLB model or the procedural dummy based on person.modelVariant.
+// Defaults to the GLB. The dummy is the Suspense fallback while the GLB loads.
+export function Person(props: Props) {
+  const variant = props.person.modelVariant ?? PERSON_MODELS[0]?.id ?? 'dummy'
+  if (variant === 'dummy') return <PersonDummy {...props} />
+  return (
+    <Suspense fallback={<PersonDummy {...props} />}>
+      <PersonGLB {...props} />
+    </Suspense>
   )
 }

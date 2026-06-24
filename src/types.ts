@@ -133,6 +133,9 @@ export type PersonConfig = {
   clothingColor: string
   showFacePlane: boolean
   pose: PoseConfig
+  // 'dummy' = procedural rig; any other string = id in PERSON_MODELS registry.
+  // Absent defaults to the first entry in PERSON_MODELS.
+  modelVariant?: string
   // Optional attach-to-support binding. Absent = person is free on the ground
   // (or placed once without live follow-through). See HERMES.md §6.
   supportObjectId?: string
