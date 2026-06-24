@@ -1,7 +1,7 @@
 {
   "name": "direct-light",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "白棚灯光预演工具 / A white-studio lighting previz sandbox for directors, DPs, and gaffers. Built with React + React Three Fiber.",
   "type": "module",
   "license": "MIT",

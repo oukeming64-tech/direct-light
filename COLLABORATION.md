@@ -14,7 +14,7 @@ Date: 2026-06-24
 
 Released baseline:
 
-- Latest public release: `v1.0.0` (first stable major release — multilingual UI complete).
+- Latest public release: `v1.0.1` (drag-bounds fix on top of the `v1.0.0` multilingual major release).
 - GitHub: https://github.com/oukeming64-tech/direct-light
 - GitHub Pages demo: https://oukeming64-tech.github.io/direct-light/
 - macOS desktop release is published through Tauri CI.
@@ -23,11 +23,11 @@ Released baseline:
 Current feature line:
 
 - v0.10 multilingual UI is complete and user-accepted (2026-06-24), released as **`v1.0.0`** — the user chose 1.0.0 (not 0.10.0) because this is a major update milestone.
-- All app version metadata is `v1.0.0` / `1.0.0` (TopBar / `package.json` / `tauri.conf.json` / `Cargo.toml` / `Cargo.lock`).
+- All app version metadata is `v1.0.1` / `1.0.1` (TopBar / `package.json` / `tauri.conf.json` / `Cargo.toml` / `Cargo.lock`); `v1.0.1` is a drag-bounds patch over `v1.0.0`.
 - i18n foundation, v0.10b tier-A core UI extraction, and v0.10.1 built-in display labels + `sceneDiff` localized copy are complete.
 - Released: committed + pushed to `main`, tagged `v1.0.0` (web GitHub Pages + Tauri macOS CI).
 
-Post-1.0.0 fixes (pushed to `main`, not separately tagged — `v1.0.0` stays the latest public release):
+v1.0.1 — drag-bounds patch (released, tagged `v1.0.1`):
 
 - Free-drag bounds: dragging a light / camera / person / prop on the ground now clamps to the live studio footprint (`width` × `depth`, all four sides incl. the open +Z front, 0.3m margin) instead of a hardcoded ±20m. Pure helper `clampToStudioFootprint` in `src/domain/studioBounds.ts`; `GroundDragController` reads the current `studio` from the store. The camera path still also passes through `clampCameraInsideStudio`.
 

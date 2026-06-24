@@ -4,9 +4,9 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/)，版本号为产品内部迭代号（非 npm 语义化版本）。
 
-## [未发布] · 修复
+## [1.0.1] - 2026-06-24 · 修复：自由拖动受白棚尺寸约束
 
-> 已在本地落地并通过用户验收，尚未单独发版（仍以 `v1.0.0` 为最新公开发布）。
+> 通过用户验收并已发布；TopBar / `package.json` / Tauri / Cargo / Cargo.lock 均为 `1.0.1`，tag `v1.0.1`。
 
 - 修复自由拖动越界：在画布里自由拖动**灯光 / 相机 / 人物 / 道具**时，落点现在按白棚实际 `width` × `depth` 夹紧（四面封边，含敞开的前方 +Z，留 0.3m 余量），不再沿用写死的 ±20m 范围。此前灯光 / 人物 / 道具完全不受白棚尺寸约束，相机前方也能拖出棚外。白棚尺寸改动后拖动边界实时跟随。新增纯函数 `src/domain/studioBounds.ts` 的 `clampToStudioFootprint`，由 `GroundDragController` 读当前 `studio` 调用。
 

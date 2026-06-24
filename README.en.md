@@ -19,10 +19,10 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 
 ## Release
 
-**Current version: `v1.0.0` — the first stable release (2026-06-24).** The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
+**Current version: `v1.0.1` — a drag-bounds fix on top of the first stable release `v1.0.0` (2026-06-24).** The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
 
 - 🌐 **Web**: <https://oukeming64-tech.github.io/direct-light/> — no install, auto-updated on every push to `main`.
-- 🖥️ **macOS desktop**: the `.dmg` on the [v1.0.0 release](https://github.com/oukeming64-tech/direct-light/releases/latest) (universal Apple Silicon / Intel, unsigned — see the desktop section for first-launch steps).
+- 🖥️ **macOS desktop**: the `.dmg` on the [v1.0.1 release](https://github.com/oukeming64-tech/direct-light/releases/latest) (universal Apple Silicon / Intel, unsigned — see the desktop section for first-launch steps).
 - 📜 Full per-version history in [`CHANGELOG.md`](CHANGELOG.md).
 
 Starting from a simple prototype, Direct Light grew through ~ten iterations (v0.2–v0.10: multi-actor blocking, props/structures, poses, fixture presets, modifiers and in-studio control gear, camera controls, more lights, custom-fixture import/export, and the multilingual UI) and now ships as its first stable release.
