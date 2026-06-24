@@ -14,6 +14,7 @@ import type {
   Vector3,
   ViewMode,
 } from '../types'
+import type { AppLanguage } from '../i18n/languages'
 
 export type DragTarget = { kind: 'light' | 'person' | 'object' | 'camera'; id: string } | null
 
@@ -27,6 +28,9 @@ export type Store = {
   scene: SceneConfig
   selection: Selection
   viewMode: ViewMode
+  // v0.10: app UI language. A top-level preference, NOT part of `scene` or any
+  // saved/exported data. Persisted separately to `direct-light.language.v1`.
+  language: AppLanguage
   presets: LightingPreset[]
   // v0.9c: user-authored fixture library (persisted to localStorage), merged
   // with the built-in FIXTURE_PRESETS in the 器械 dropdown + applyFixturePreset.
@@ -41,6 +45,8 @@ export type Store = {
   select: (selection: Selection) => void
   setViewMode: (mode: ViewMode) => void
   setDragTarget: (target: DragTarget) => void
+  // v0.10: switch the app UI language (also persists it).
+  setLanguage: (language: AppLanguage) => void
 
   // A/B compare
   setCompareB: (b: CompareSnapshot | null) => void

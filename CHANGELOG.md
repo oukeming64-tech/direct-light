@@ -1,12 +1,22 @@
 # 更新记录 · Changelog
 
-本文件记录面向用户的版本变化。详细的协作过程和逐版分工见 [`COLLABORATION.md`](COLLABORATION.md)。
+本文件记录面向用户的版本变化。当前协作状态见 [`COLLABORATION.md`](COLLABORATION.md)，长历史归档在 `docs/history/`。
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/)，版本号为产品内部迭代号（非 npm 语义化版本）。
 
+## [1.0.0] - 2026-06-24 · 多语言 UI · 首个正式版
+
+- 新增 [`V0_10_I18N_SPEC.md`](V0_10_I18N_SPEC.md)，定稿多语言口径：语言是 app preference，不进入场景、保存方案、A/B 或自定义器械数据。
+- 首批语言定为简体中文 / 英语 / 日语；默认仍是简体中文。
+- 约定实现方式：轻量 typed in-repo i18n，不先引入重型依赖；v0.10a-d 拆分为基础设施、核心 UI 抽取、内置显示标签/copy pass、验收收口。
+- **i18n 基础设施已落地并通过用户验收**：新增 `src/i18n/*`（`languages`/`t()`/`useT` + 按域拆分的 `messages/`），store 顶层 `language` + `setLanguage`，独立持久化 key `direct-light.language.v1`，顶栏语言菜单（中/英/日）。
+- **核心 UI 抽取（tier-A）已全部落地并通过用户验收**：顶栏、视角徽标、对象列表、5 个参数面板（人物/灯/物体/白棚/灯具子区）、方案栏、A/B 对比视图全部走 `t()`。
+- **内置显示标签 + 派生文案已收口**：灯型、器械能力、内置器械、控光附件、目标模式、颜色、机位、姿态、道具/材质/类型、承载面、有效光质摘要、导演灯光简介、A/B `sceneDiff` 和 debug preset title 均通过 id/helper 本地化；源数据表和用户输入不被改写。
+- 用户真机视觉验收 + Codex en/ja copy 复核均已通过（2026-06-24）。多语言 UI 全线完成，作为**首个正式版 `v1.0.0`** 发布（网页 + macOS 桌面）；TopBar / `package.json` / Tauri / Cargo 版本同步到 `1.0.0`。
+
 ## [0.9.0] - 2026-06-23 · 自定义灯具导入 / 导出
 
-> 通过用户视觉验收；TopBar 升到 `v0.9.0`（产品迭代号）。桌面 / 网页正式发版（git tag + `.dmg`）为独立步骤，可后续按需触发。详见 [`V0_9_CUSTOM_FIXTURE_SPEC.md`](V0_9_CUSTOM_FIXTURE_SPEC.md)。
+> 通过用户视觉验收并已发布；TopBar / `package.json` / Tauri / Cargo 均为 `0.9.0`。详见 [`V0_9_CUSTOM_FIXTURE_SPEC.md`](V0_9_CUSTOM_FIXTURE_SPEC.md)。
 
 - 自定义灯具器械：与内置器械同形，可进同一「器械」下拉、走同一套 `applyFixturePreset`。
 - 把当前调好的灯一键存成自定义器械；自定义器械本地保存（localStorage）。
@@ -22,7 +32,7 @@
 - 左侧灯光列表显示 `灯光 N/6`，满额后显示 `满 6`，复制按钮在满额时禁用。
 - A/B 摘要、保存 / 加载 / 复制方案和导出路径确认不裁剪 6 灯状态。
 - 修复同轮两个交互问题：人物拖拽会被夹在白棚地面范围内；自由视角横向触控滚动用于左右转，纵向滚动仍用于缩放。
-- 多语言 UI 后置；下一步主线调整为 v0.9 自定义灯具预设 JSON 导入 / 导出。
+- 完成 v0.8 后，下一步主线调整为 v0.9 自定义灯具预设 JSON 导入 / 导出；多语言在 v0.10 另行规格化。
 
 ## [0.7.1] - 2026-06-21 · 应用图标
 
@@ -42,7 +52,7 @@
 - 新增 macOS 桌面封包（[Tauri](https://tauri.app/)）：`src-tauri/` 脚手架 + `build:tauri` 脚本（`--mode tauri` → 相对 `base`）+ `.github/workflows/release.yml`（push `v*` tag → macOS runner 构建通用包 → 挂到 Releases 草稿）。桌面版与网页版同一套前端代码。
 - 顶栏版本号 `v0.6e → v0.7.0`。
 
-已知限制：最多 3 盏灯、UI 仅简体中文、桌面优先、渲染为沟通向近似（见 README）。
+当时已知限制：最多 3 盏灯、界面语言只有简体中文、桌面优先、渲染为沟通向近似（见 README）。
 
 ## [0.6.0] - 2026-06-21 · 控光线（v0.6a–v0.6e）
 

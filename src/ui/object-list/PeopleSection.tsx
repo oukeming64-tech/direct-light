@@ -1,5 +1,6 @@
 import { MAX_PEOPLE } from '../../data/defaults'
 import { useStore } from '../../state/store'
+import { useT } from '../../i18n/useT'
 import { Group } from './Group'
 import { isSelected, rowBase, rowState } from './rowUtils'
 
@@ -10,21 +11,22 @@ export function PeopleSection() {
   const addPerson = useStore((s) => s.addPerson)
   const duplicatePerson = useStore((s) => s.duplicatePerson)
   const removePerson = useStore((s) => s.removePerson)
+  const t = useT()
 
   return (
     <Group
-      title="人物"
+      title={t('objectList.people.title')}
       action={
         people.length < MAX_PEOPLE ? (
           <button
             onClick={addPerson}
             className="rounded px-1.5 text-lg leading-none text-zinc-400 hover:text-violet-300"
-            title="添加人物"
+            title={t('objectList.people.add')}
           >
             ＋
           </button>
         ) : (
-          <span className="text-[10px] text-zinc-600">满 {MAX_PEOPLE}</span>
+          <span className="text-[10px] text-zinc-600">{t('common.full', { max: MAX_PEOPLE })}</span>
         )
       }
     >
@@ -45,7 +47,7 @@ export function PeopleSection() {
               }}
               disabled={people.length >= MAX_PEOPLE}
               className="px-1 text-zinc-400 hover:text-violet-300 disabled:opacity-30"
-              title="复制人物"
+              title={t('objectList.people.duplicate')}
             >
               ⧉
             </button>
@@ -56,7 +58,7 @@ export function PeopleSection() {
               }}
               disabled={people.length <= 1}
               className="px-1 text-zinc-400 hover:text-red-300 disabled:opacity-30"
-              title="删除人物"
+              title={t('objectList.people.delete')}
             >
               ✕
             </button>

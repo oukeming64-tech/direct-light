@@ -1,6 +1,8 @@
 import { MAX_OBJECTS } from '../../data/defaults'
 import { SCENE_OBJECT_PRESETS } from '../../data/sceneObjects'
 import { useStore } from '../../state/store'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getSceneObjectKindLabel, getSceneObjectPresetLabel } from '../../i18n/display'
 import { Group } from './Group'
 import { isSelected, rowBase, rowState } from './rowUtils'
 
@@ -12,10 +14,12 @@ export function SceneObjectsSection() {
   const duplicateObject = useStore((s) => s.duplicateObject)
   const removeObject = useStore((s) => s.removeObject)
   const toggleObjectVisibility = useStore((s) => s.toggleObjectVisibility)
+  const t = useT()
+  const language = useLanguage()
 
   return (
     <Group
-      title="道具 / 结构"
+      title={t('objectList.objects.title')}
       action={
         objects.length < MAX_OBJECTS ? (
           <select
@@ -27,25 +31,25 @@ export function SceneObjectsSection() {
             }}
           >
             <option value="" disabled>
-              ＋ 加道具
+              {t('objectList.objects.addPlaceholder')}
             </option>
-            <optgroup label="道具 / 结构">
+            <optgroup label={t('objectList.objects.title')}>
               {SCENE_OBJECT_PRESETS.filter((p) => p.group !== 'gear').map((preset) => (
                 <option key={preset.id} value={preset.id}>
-                  {preset.label}
+                  {getSceneObjectPresetLabel(language, preset.id)}
                 </option>
               ))}
             </optgroup>
-            <optgroup label="控光器材">
+            <optgroup label={t('objectList.objects.groupGear')}>
               {SCENE_OBJECT_PRESETS.filter((p) => p.group === 'gear').map((preset) => (
                 <option key={preset.id} value={preset.id}>
-                  {preset.label}
+                  {getSceneObjectPresetLabel(language, preset.id)}
                 </option>
               ))}
             </optgroup>
           </select>
         ) : (
-          <span className="text-[10px] text-zinc-600">满 {MAX_OBJECTS}</span>
+          <span className="text-[10px] text-zinc-600">{t('common.full', { max: MAX_OBJECTS })}</span>
         )
       }
     >
@@ -57,7 +61,7 @@ export function SceneObjectsSection() {
         >
           <button
             className="px-0.5 text-[11px]"
-            title={object.visible ? '隐藏' : '显示'}
+            title={object.visible ? t('objectList.objects.hide') : t('objectList.objects.show')}
             onClick={(e) => {
               e.stopPropagation()
               toggleObjectVisibility(object.id)
@@ -66,11 +70,11 @@ export function SceneObjectsSection() {
             {object.visible ? '👁' : '🚫'}
           </button>
           <span className={`flex-1 truncate ${object.visible ? '' : 'text-zinc-500'}`}>{object.name}</span>
-          <span className="text-[10px] text-zinc-500">{object.kind}</span>
+          <span className="text-[10px] text-zinc-500">{getSceneObjectKindLabel(language, object.kind)}</span>
           <div className="flex items-center opacity-0 transition group-hover:opacity-100">
             <button
               className="px-1 text-zinc-400 hover:text-violet-300 disabled:opacity-30"
-              title="复制"
+              title={t('objectList.objects.duplicate')}
               disabled={objects.length >= MAX_OBJECTS}
               onClick={(e) => {
                 e.stopPropagation()
@@ -81,7 +85,7 @@ export function SceneObjectsSection() {
             </button>
             <button
               className="px-1 text-zinc-400 hover:text-red-300"
-              title="删除"
+              title={t('objectList.objects.delete')}
               onClick={(e) => {
                 e.stopPropagation()
                 removeObject(object.id)

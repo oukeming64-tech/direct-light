@@ -63,7 +63,7 @@ npm run preview    # 本地预览已构建的产物
 
 - 最多 6 盏灯（`MAX_LIGHTS = 6`）；默认仍是 Key/Fill/Rim 三盏（v0.8 多灯管理）。
 - 自定义灯具器械（v0.9）已支持「存当前灯为器械」+ JSON 导入/导出，但只存本地（localStorage），跨设备靠导出/导入手动搬运，见 `V0_9_CUSTOM_FIXTURE_SPEC.md`。
-- UI 仅简体中文；英语 / 日语多语言会在核心功能和字段更稳定后再做。
+- 多语言 UI（v1.0 起完整支持 中/英/日）：界面、内置数据派生标签和 A-B 文案全部三语化。新增文案用 `src/i18n/*` 的 `useT()`/`t()`，加 key 改 `src/i18n/messages/<域>.ts`、数据派生标签走 `src/i18n/display.ts`，**不要把中文源串当 key**，不要翻译用户输入/品牌/单位/id。见 `V0_10_I18N_SPEC.md`。
 - 桌面 / 封包工作台体验优先；移动端窄屏响应式后续单独排期。
 - 渲染为导演沟通向近似，非物理准确。
 
@@ -80,4 +80,4 @@ Direct Light is a white-studio lighting previz sandbox. To contribute:
 - Before any PR, make sure **`npx tsc -b`**, **`npm run lint`**, and **`npm run build`** all pass.
 - Read [`ARCHITECTURE.md`](ARCHITECTURE.md) for where code lives. Keep `src/App.tsx` thin; don't put logic back into the `LightPanel` / `ObjectList` / `AppShell` compatibility shells.
 - The renderer is a **communication-oriented approximation**, not a physically accurate simulation — prioritize readable, stable, real-time feedback. Rendering numbers live in `src/data/rendering.ts`.
-- Known limits: max 6 lights, Simplified-Chinese-only UI, desktop-first. See [`ROADMAP.md`](ROADMAP.md).
+- Known limits: max 6 lights; multilingual UI (中/英/日) is complete as of **v1.0.0**; desktop-first. See [`ROADMAP.md`](ROADMAP.md) and [`V0_10_I18N_SPEC.md`](V0_10_I18N_SPEC.md).

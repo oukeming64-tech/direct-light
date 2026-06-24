@@ -1,5 +1,6 @@
 import type { FixtureCategory, LightConfig } from '../types'
 import { LIGHT_MODIFIER_PRESETS, type LightModifierPreset } from '../data/lightModifiers'
+import { t, type AppLanguage } from '../i18n'
 
 export const EFFECTIVE_LIGHT_LIMITS = {
   intensityMin: 0,
@@ -69,8 +70,12 @@ export function getEffectiveLightParams(light: LightConfig): EffectiveLightParam
   }
 }
 
-export function formatEffectiveLightSummary(params: EffectiveLightParams): string {
-  return `亮度 ${params.intensity.toFixed(2)} · 光束 ${params.beamAngle.toFixed(0)}° · 柔硬 ${params.softness.toFixed(2)}`
+export function formatEffectiveLightSummary(params: EffectiveLightParams, language: AppLanguage): string {
+  return [
+    t(language, 'effective.intensity', { value: params.intensity.toFixed(2) }),
+    t(language, 'effective.beam', { value: params.beamAngle.toFixed(0) }),
+    t(language, 'effective.softness', { value: params.softness.toFixed(2) }),
+  ].join(t(language, 'effective.separator'))
 }
 
 function clamp(value: number, min: number, max: number): number {

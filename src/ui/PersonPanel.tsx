@@ -2,6 +2,8 @@ import { useStore } from '../state/store'
 import { buildSupportBinding, CLEAR_SUPPORT_BINDING, getPersonSupportSurfaces } from '../domain/supportSurfaces'
 import { DEFAULT_POSE, POSE_PRESETS, SEATED_HIP_HEIGHT } from '../data/poses'
 import type { PoseConfig } from '../types'
+import { useT, useLanguage } from '../i18n/useT'
+import { getPosePresetLabel } from '../i18n/display'
 import { ColorField, Field, PanelSection, Slider, Toggle } from './controls'
 import { Header } from './PanelHeader'
 
@@ -9,12 +11,14 @@ export function PersonPanel({ id }: { id: string }) {
   const person = useStore((s) => s.scene.people.find((p) => p.id === id))
   const objects = useStore((s) => s.scene.objects)
   const updatePerson = useStore((s) => s.updatePerson)
+  const t = useT()
+  const language = useLanguage()
   if (!person) return null
 
   const pose = { ...DEFAULT_POSE, ...(person.pose ?? {}) }
   const posePresetValue = POSE_PRESETS.some((p) => p.id === pose.presetId) ? pose.presetId : 'custom'
   const setPose = (patch: Partial<PoseConfig>) => updatePerson(id, { pose: { ...pose, presetId: 'custom', ...patch } })
-  const supportSurfaces = getPersonSupportSurfaces(objects)
+  const supportSurfaces = getPersonSupportSurfaces(objects, language)
 
   // Seated hips sit at the group origin, so a floor-standing actor (y≈0) needs a
   // lift to seat height for the feet to land on the floor; standing back up from
@@ -63,25 +67,25 @@ export function PersonPanel({ id }: { id: string }) {
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      <Header title={person.name} subtitle="人物参数" />
-      <PanelSection title="基础">
-        <Field label="名称">
+      <Header title={person.name} subtitle={t('personPanel.subtitle')} />
+      <PanelSection title={t('personPanel.section.basic')}>
+        <Field label={t('personPanel.name')}>
           <input
             value={person.name}
             onChange={(e) => updatePerson(id, { name: e.target.value })}
             className="rounded-lg bg-zinc-800/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:ring-1 focus:ring-violet-400"
           />
         </Field>
-        <Slider label="身高" min={1.4} max={2.05} step={0.01} unit="m" value={person.height} onChange={(v) => updatePerson(id, { height: v })} />
-        <Slider label="朝向" min={-180} max={180} step={1} unit="°" value={(person.rotationY * 180) / Math.PI} onChange={(v) => updatePerson(id, { rotationY: (v * Math.PI) / 180 })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.height')} min={1.4} max={2.05} step={0.01} unit="m" value={person.height} onChange={(v) => updatePerson(id, { height: v })} />
+        <Slider label={t('common.facing')} min={-180} max={180} step={1} unit="°" value={(person.rotationY * 180) / Math.PI} onChange={(v) => updatePerson(id, { rotationY: (v * Math.PI) / 180 })} format={(v) => v.toFixed(0)} />
       </PanelSection>
-      <PanelSection title="位置">
-        <Slider label="左右 X" min={-4} max={4} step={0.05} unit="m" value={person.position.x} onChange={(v) => updatePerson(id, { position: { ...person.position, x: v } })} />
-        <Slider label="离地 Y" min={0} max={1.5} step={0.05} unit="m" value={person.position.y} onChange={(v) => updatePerson(id, { position: { ...person.position, y: v } })} />
-        <Slider label="前后 Z" min={-4} max={4} step={0.05} unit="m" value={person.position.z} onChange={(v) => updatePerson(id, { position: { ...person.position, z: v } })} />
+      <PanelSection title={t('personPanel.section.position')}>
+        <Slider label={t('common.axisX')} min={-4} max={4} step={0.05} unit="m" value={person.position.x} onChange={(v) => updatePerson(id, { position: { ...person.position, x: v } })} />
+        <Slider label={t('common.axisYoffGround')} min={0} max={1.5} step={0.05} unit="m" value={person.position.y} onChange={(v) => updatePerson(id, { position: { ...person.position, y: v } })} />
+        <Slider label={t('common.axisZ')} min={-4} max={4} step={0.05} unit="m" value={person.position.z} onChange={(v) => updatePerson(id, { position: { ...person.position, z: v } })} />
         <div className="grid grid-cols-[1fr_auto] gap-2">
           {supportSurfaces.length > 0 ? (
-            <Field label="放到承载物">
+            <Field label={t('personPanel.placeOnSupport')}>
               <select
                 value=""
                 onChange={(e) => {
@@ -91,7 +95,7 @@ export function PersonPanel({ id }: { id: string }) {
                 className="rounded-lg bg-zinc-800/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:ring-1 focus:ring-violet-400"
               >
                 <option value="" disabled>
-                  选择桌面 / 椅面 / 舞台
+                  {t('personPanel.placeOnSupport.placeholder')}
                 </option>
                 {supportSurfaces.map((surface) => (
                   <option key={surface.object.id} value={surface.object.id}>
@@ -101,8 +105,8 @@ export function PersonPanel({ id }: { id: string }) {
               </select>
             </Field>
           ) : (
-            <Field label="放到承载物">
-              <span className="rounded-lg bg-zinc-800/30 px-3 py-2 text-sm text-zinc-500">先添加桌椅或舞台</span>
+            <Field label={t('personPanel.placeOnSupport')}>
+              <span className="rounded-lg bg-zinc-800/30 px-3 py-2 text-sm text-zinc-500">{t('personPanel.placeOnSupport.empty')}</span>
             </Field>
           )}
           <button
@@ -117,46 +121,46 @@ export function PersonPanel({ id }: { id: string }) {
             }
             className="self-end rounded-lg bg-zinc-800/60 px-3 py-2 text-xs text-zinc-200 hover:bg-zinc-700/60"
           >
-            {pose.seated ? '起立回地面' : '回到地面'}
+            {pose.seated ? t('personPanel.standUpSeated') : t('personPanel.standUp')}
           </button>
         </div>
       </PanelSection>
-      <PanelSection title="姿态">
-        <Field label="预设姿态">
+      <PanelSection title={t('personPanel.section.pose')}>
+        <Field label={t('personPanel.posePreset')}>
           <select
             className="rounded-lg bg-zinc-800/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:ring-1 focus:ring-violet-400"
             value={posePresetValue}
             onChange={(e) => applyPosePreset(e.target.value)}
           >
-            {posePresetValue === 'custom' && <option value="custom">自定义微调</option>}
+            {posePresetValue === 'custom' && <option value="custom">{t('personPanel.poseCustom')}</option>}
             {POSE_PRESETS.map((pp) => (
               <option key={pp.id} value={pp.id}>
-                {pp.label}
+                {getPosePresetLabel(language, pp.id)}
               </option>
             ))}
           </select>
         </Field>
-        <Toggle label="坐姿（折叠双腿）" checked={!!pose.seated} onChange={setSeated} />
-        <p className="text-[11px] text-zinc-500">放到椅子/沙发/凳子会自动坐下；选预设后可在下方微调</p>
+        <Toggle label={t('personPanel.seated')} checked={!!pose.seated} onChange={setSeated} />
+        <p className="text-[11px] text-zinc-500">{t('personPanel.poseHint')}</p>
       </PanelSection>
-      <PanelSection title="姿态微调">
-        <Slider label="头·左右" min={-80} max={80} step={1} unit="°" value={pose.headYaw} onChange={(v) => setPose({ headYaw: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="头·俯仰" min={-45} max={45} step={1} unit="°" value={pose.headPitch} onChange={(v) => setPose({ headPitch: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="躯干·转身" min={-60} max={60} step={1} unit="°" value={pose.torsoYaw} onChange={(v) => setPose({ torsoYaw: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="躯干·前倾" min={-20} max={40} step={1} unit="°" value={pose.torsoPitch} onChange={(v) => setPose({ torsoPitch: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="左上臂·抬起" min={-170} max={170} step={1} unit="°" value={pose.leftUpperArmPitch} onChange={(v) => setPose({ leftUpperArmPitch: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="左上臂·外展" min={0} max={170} step={1} unit="°" value={pose.leftUpperArmRoll} onChange={(v) => setPose({ leftUpperArmRoll: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="左前臂·弯曲" min={0} max={150} step={1} unit="°" value={pose.leftForearmBend} onChange={(v) => setPose({ leftForearmBend: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="左前臂·内旋" min={-90} max={90} step={1} unit="°" value={pose.leftForearmYaw} onChange={(v) => setPose({ leftForearmYaw: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="右上臂·抬起" min={-170} max={170} step={1} unit="°" value={pose.rightUpperArmPitch} onChange={(v) => setPose({ rightUpperArmPitch: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="右上臂·外展" min={0} max={170} step={1} unit="°" value={pose.rightUpperArmRoll} onChange={(v) => setPose({ rightUpperArmRoll: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="右前臂·弯曲" min={0} max={150} step={1} unit="°" value={pose.rightForearmBend} onChange={(v) => setPose({ rightForearmBend: v })} format={(v) => v.toFixed(0)} />
-        <Slider label="右前臂·内旋" min={-90} max={90} step={1} unit="°" value={pose.rightForearmYaw} onChange={(v) => setPose({ rightForearmYaw: v })} format={(v) => v.toFixed(0)} />
+      <PanelSection title={t('personPanel.section.poseTune')}>
+        <Slider label={t('personPanel.headYaw')} min={-80} max={80} step={1} unit="°" value={pose.headYaw} onChange={(v) => setPose({ headYaw: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.headPitch')} min={-45} max={45} step={1} unit="°" value={pose.headPitch} onChange={(v) => setPose({ headPitch: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.torsoYaw')} min={-60} max={60} step={1} unit="°" value={pose.torsoYaw} onChange={(v) => setPose({ torsoYaw: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.torsoPitch')} min={-20} max={40} step={1} unit="°" value={pose.torsoPitch} onChange={(v) => setPose({ torsoPitch: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.leftUpperArmPitch')} min={-170} max={170} step={1} unit="°" value={pose.leftUpperArmPitch} onChange={(v) => setPose({ leftUpperArmPitch: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.leftUpperArmRoll')} min={0} max={170} step={1} unit="°" value={pose.leftUpperArmRoll} onChange={(v) => setPose({ leftUpperArmRoll: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.leftForearmBend')} min={0} max={150} step={1} unit="°" value={pose.leftForearmBend} onChange={(v) => setPose({ leftForearmBend: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.leftForearmYaw')} min={-90} max={90} step={1} unit="°" value={pose.leftForearmYaw} onChange={(v) => setPose({ leftForearmYaw: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.rightUpperArmPitch')} min={-170} max={170} step={1} unit="°" value={pose.rightUpperArmPitch} onChange={(v) => setPose({ rightUpperArmPitch: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.rightUpperArmRoll')} min={0} max={170} step={1} unit="°" value={pose.rightUpperArmRoll} onChange={(v) => setPose({ rightUpperArmRoll: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.rightForearmBend')} min={0} max={150} step={1} unit="°" value={pose.rightForearmBend} onChange={(v) => setPose({ rightForearmBend: v })} format={(v) => v.toFixed(0)} />
+        <Slider label={t('personPanel.rightForearmYaw')} min={-90} max={90} step={1} unit="°" value={pose.rightForearmYaw} onChange={(v) => setPose({ rightForearmYaw: v })} format={(v) => v.toFixed(0)} />
       </PanelSection>
-      <PanelSection title="外观">
-        <ColorField label="肤色" value={person.skinTone} onChange={(v) => updatePerson(id, { skinTone: v })} />
-        <ColorField label="服装颜色" value={person.clothingColor} onChange={(v) => updatePerson(id, { clothingColor: v })} />
-        <Toggle label="显示面部朝向" checked={person.showFacePlane} onChange={(v) => updatePerson(id, { showFacePlane: v })} />
+      <PanelSection title={t('personPanel.section.appearance')}>
+        <ColorField label={t('personPanel.skinTone')} value={person.skinTone} onChange={(v) => updatePerson(id, { skinTone: v })} />
+        <ColorField label={t('personPanel.clothingColor')} value={person.clothingColor} onChange={(v) => updatePerson(id, { clothingColor: v })} />
+        <Toggle label={t('personPanel.showFacePlane')} checked={person.showFacePlane} onChange={(v) => updatePerson(id, { showFacePlane: v })} />
       </PanelSection>
     </div>
   )

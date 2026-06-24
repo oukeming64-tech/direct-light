@@ -1,5 +1,6 @@
-import { LIGHT_TARGET_MODE_LABELS } from '../../domain/lightTargets'
 import type { LightTargetMode, PersonConfig } from '../../types'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getLightTargetModeLabel } from '../../i18n/display'
 import { Field, PanelSection, Segmented } from '../controls'
 
 export function LightTargetSection({
@@ -17,20 +18,22 @@ export function LightTargetSection({
   onChangePerson: (personId: string) => void
   onAim: () => void
 }) {
+  const t = useT()
+  const language = useLanguage()
   return (
-    <PanelSection title="目标 / 对齐">
+    <PanelSection title={t('lightPanel.section.target')}>
       <Segmented<LightTargetMode>
-        label="模式"
+        label={t('lightPanel.mode')}
         value={targetMode}
         onChange={onChangeMode}
         options={[
-          { value: 'manual', label: LIGHT_TARGET_MODE_LABELS.manual },
-          { value: 'person', label: LIGHT_TARGET_MODE_LABELS.person },
-          { value: 'peopleCenter', label: LIGHT_TARGET_MODE_LABELS.peopleCenter },
+          { value: 'manual', label: getLightTargetModeLabel(language, 'manual') },
+          { value: 'person', label: getLightTargetModeLabel(language, 'person') },
+          { value: 'peopleCenter', label: getLightTargetModeLabel(language, 'peopleCenter') },
         ]}
       />
       {targetMode === 'person' && (
-        <Field label="目标人物">
+        <Field label={t('lightPanel.targetPerson')}>
           <select
             value={targetPerson.id}
             onChange={(e) => onChangePerson(e.target.value)}
@@ -48,7 +51,7 @@ export function LightTargetSection({
         onClick={onAim}
         className="mt-1 rounded-lg bg-zinc-800/60 px-3 py-2 text-xs text-zinc-200 hover:bg-zinc-700/60"
       >
-        对准一次
+        {t('lightPanel.aimOnce')}
       </button>
     </PanelSection>
   )

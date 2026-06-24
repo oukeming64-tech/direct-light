@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { buildDefaultScene } from '../data/defaults'
 import { normalizePreset } from '../domain/sceneMigration'
-import { loadCustomFixtures, loadPresets } from '../lib/storage'
+import { loadCustomFixtures, loadLanguage, loadPresets } from '../lib/storage'
 import type { Store } from './storeTypes'
 import { createViewActions } from './actions/viewActions'
 import { createCompareActions } from './actions/compareActions'
@@ -23,6 +23,7 @@ export const useStore = create<Store>((set, get) => ({
   scene: buildDefaultScene(),
   selection: { kind: 'light', id: 'light-key' },
   viewMode: 'camera',
+  language: loadLanguage(),
   presets: loadPresets().map(normalizePreset),
   customFixtures: loadCustomFixtures(),
   dragTarget: null,

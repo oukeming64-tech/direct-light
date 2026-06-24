@@ -1,8 +1,10 @@
-import { LIGHT_TYPE_DEFAULTS, LIGHT_TYPE_LABELS } from '../../data/rendering'
+import { LIGHT_TYPE_DEFAULTS } from '../../data/rendering'
 import { findFixtureById } from '../../domain/customFixtures'
 import { formatEffectiveLightSummary, getEffectiveLightParams } from '../../domain/lightModifiers'
 import { azimuthDeg, horizontalDistance, positionFromPolar } from '../../lib/geometry'
 import { useStore } from '../../state/store'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getFixtureDisplayLabel, getLightTypeLabel, getModifierLabel } from '../../i18n/display'
 import type { LightConfig, LightTargetMode, LightType } from '../../types'
 import { Header } from '../PanelHeader'
 import { LightBaseSection } from './LightBaseSection'
@@ -22,13 +24,15 @@ export function LightPanel({ id }: { id: string }) {
   const setLightTargetMode = useStore((s) => s.setLightTargetMode)
   const applyFixturePreset = useStore((s) => s.applyFixturePreset)
   const applyLightModifier = useStore((s) => s.applyLightModifier)
+  const t = useT()
+  const language = useLanguage()
 
   if (!light || !people.length) return null
 
   const fixture = findFixtureById(light.fixturePresetId, customFixtures)
   const effective = getEffectiveLightParams(light)
   const modifier = effective.modifier
-  const fixtureLabel = fixture ? fixture.label : LIGHT_TYPE_LABELS[light.type]
+  const fixtureLabel = fixture ? getFixtureDisplayLabel(language, fixture) : getLightTypeLabel(language, light.type)
   const targetMode = light.targetMode ?? 'manual'
   const targetPerson = people.find((person) => person.id === light.targetPersonId) ?? people[0]
   const distance = horizontalDistance(targetPerson, light.position)
@@ -50,7 +54,10 @@ export function LightPanel({ id }: { id: string }) {
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      <Header title={light.name} subtitle={`${fixtureLabel} · ${modifier ? modifier.label : '灯光参数'}`} />
+      <Header
+        title={light.name}
+        subtitle={`${fixtureLabel} · ${modifier ? getModifierLabel(language, modifier.id) : t('lightPanel.paramsFallback')}`}
+      />
 
       <LightBaseSection
         light={light}
@@ -84,7 +91,7 @@ export function LightPanel({ id }: { id: string }) {
       <LightBeamSection
         light={light}
         onPatch={patchLight}
-        effectiveSummary={modifier ? formatEffectiveLightSummary(effective) : undefined}
+        effectiveSummary={modifier ? formatEffectiveLightSummary(effective, language) : undefined}
       />
     </div>
   )

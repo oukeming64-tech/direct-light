@@ -32,6 +32,7 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 - 🏠 **Props & structures** — tables, chairs, plinths, mannequins, a round live-stream stage, backdrops; draggable, rotatable, resizable; people can be placed onto supports and follow them live.
 - 🎥 **Views + camera** — camera / free-orbit / top / side views; camera azimuth, distance, height, focal length, aspect ratio, position presets, and "frame from free view".
 - 🔀 **A/B compare · save · export** — presets saved to browser localStorage, frozen A/B compare with a difference summary, and preview-image export for sharing with the crew.
+- 🌐 **Multilingual UI** — switch Simplified Chinese / English / Japanese at runtime; language only changes UI display and never enters scenes, presets, A/B snapshots, or custom fixture data.
 
 ## Quick start
 
@@ -94,7 +95,7 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) (Chinese) for full module boundaries, a
 
 - Up to 6 lights (`MAX_LIGHTS = 6`); the default scene still ships 3 (Key/Fill/Rim) — multi-light management landed in **v0.8**.
 - Custom fixtures (v0.9): save the current light as a fixture, store locally, and JSON import/export. Custom fixtures live in localStorage only — moving them across devices / sharing is via the JSON export / import.
-- Simplified-Chinese-only UI for now; English / Japanese localization is postponed until the core feature fields are steadier.
+- Multilingual UI (full support since v1.0): a top-bar language menu switches 简体中文 / English / 日本語; UI chrome, built-in display labels, and derived A/B copy are all localized. User-entered names, brand/model names, units, and data ids are never translated. See [`V0_10_I18N_SPEC.md`](V0_10_I18N_SPEC.md).
 - Desktop-first; narrow mobile responsive layout is scheduled separately.
 - The renderer is a communication-oriented approximation, not a physically accurate simulation. Studio reflectance, soft light, colored spill, and gear optics all favor readable, stable, real-time output.
 - Black flag / reflector board / diffusion frame optics are runtime-derived approximations (no real mesh shadow for the flag; the reflector is a virtual weak fill; the diffusion frame modifies effective light quality).

@@ -1,5 +1,7 @@
 import type { PoseConfig, SceneConfig, SceneObjectSize } from '../types'
 import { isControlGearKind } from '../data/sceneObjects'
+import { t, type AppLanguage } from '../i18n'
+import { getPosePresetLabel } from '../i18n/display'
 
 /**
  * Category-level scene diff for the A/B compare summary. Not a deep diff —
@@ -18,26 +20,26 @@ export type DiffCategory = 'lights' | 'people' | 'objects' | 'gear' | 'pose' | '
 
 export type CategoryDiff = {
   category: DiffCategory
-  label: string // 中文标签
+  label: string // localized category label
   same: boolean
-  hint: string // 一行短提示
+  hint: string // localized one-line hint
 }
 
-export function compareScenes(a: SceneConfig, b: SceneConfig): CategoryDiff[] {
+export function compareScenes(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff[] {
   return [
-    diffLights(a, b),
-    diffPeople(a, b),
-    diffObjects(a, b),
-    diffGear(a, b),
-    diffPose(a, b),
-    diffCamera(a, b),
-    diffStudio(a, b),
+    diffLights(a, b, language),
+    diffPeople(a, b, language),
+    diffObjects(a, b, language),
+    diffGear(a, b, language),
+    diffPose(a, b, language),
+    diffCamera(a, b, language),
+    diffStudio(a, b, language),
   ]
 }
 
 // ─── per-category diff helpers (pure) ─────────────────────────────────────
 
-function diffLights(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffLights(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const aOn = a.lights.filter((l) => l.enabled).length
   const bOn = b.lights.filter((l) => l.enabled).length
   const same =
@@ -56,14 +58,14 @@ function diffLights(a: SceneConfig, b: SceneConfig): CategoryDiff {
       )
     })
   const hint = same
-    ? `灯位/强度相同`
+    ? t(language, 'sceneDiff.lights.same')
     : aOn === bOn && a.lights.length === b.lights.length
-      ? `类型/强度/位置有变化`
-      : `A开${aOn}/${a.lights.length} · B开${bOn}/${b.lights.length}`
-  return { category: 'lights', label: '灯光', same, hint }
+      ? t(language, 'sceneDiff.lights.changed')
+      : t(language, 'sceneDiff.lights.counts', { aOn, aTotal: a.lights.length, bOn, bTotal: b.lights.length })
+  return { category: 'lights', label: t(language, 'diffCategory.lights'), same, hint }
 }
 
-function diffPeople(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffPeople(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const same =
     a.people.length === b.people.length &&
     a.people.every((pa, i) => {
@@ -72,15 +74,15 @@ function diffPeople(a: SceneConfig, b: SceneConfig): CategoryDiff {
       return closeVec(pa.position, pb.position) && Math.abs(pa.rotationY - pb.rotationY) < 0.01
     })
   const hint = same
-    ? `${a.people.length} 人站位相同`
+    ? t(language, 'sceneDiff.people.same', { count: a.people.length })
     : a.people.length === b.people.length
-      ? `站位/朝向有变化`
-      : `A ${a.people.length}人 · B ${b.people.length}人`
-  return { category: 'people', label: '人物位置', same, hint }
+      ? t(language, 'sceneDiff.people.changed')
+      : t(language, 'sceneDiff.people.counts', { aCount: a.people.length, bCount: b.people.length })
+  return { category: 'people', label: t(language, 'diffCategory.people'), same, hint }
 }
 
 // v0.6e: props only (gear is split into diffGear below).
-function diffObjects(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffObjects(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const ao = a.objects.filter((o) => !isControlGearKind(o.kind))
   const bo = b.objects.filter((o) => !isControlGearKind(o.kind))
   const same =
@@ -95,17 +97,17 @@ function diffObjects(a: SceneConfig, b: SceneConfig): CategoryDiff {
       )
     })
   const hint = same
-    ? `${ao.length} 个道具相同`
+    ? t(language, 'sceneDiff.objects.same', { count: ao.length })
     : ao.length === bo.length
-      ? `位置/朝向有变化`
-      : `A ${ao.length}个 · B ${bo.length}个`
-  return { category: 'objects', label: '道具', same, hint }
+      ? t(language, 'sceneDiff.objects.changed')
+      : t(language, 'sceneDiff.objects.counts', { aCount: ao.length, bCount: bo.length })
+  return { category: 'objects', label: t(language, 'diffCategory.objects'), same, hint }
 }
 
 // v0.6e: in-studio control gear (black flag / reflector board / diffusion frame).
 // Compares kind/position/rotationY AND size + visibility, because all of those
 // change the gear's optical footprint (V0_6E_CLOSEOUT_SPEC §4.2).
-function diffGear(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffGear(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const ag = a.objects.filter((o) => isControlGearKind(o.kind))
   const bg = b.objects.filter((o) => isControlGearKind(o.kind))
   const same =
@@ -122,14 +124,14 @@ function diffGear(a: SceneConfig, b: SceneConfig): CategoryDiff {
       )
     })
   const hint = same
-    ? `${ag.length} 件控光器材相同`
+    ? t(language, 'sceneDiff.gear.same', { count: ag.length })
     : ag.length === bg.length
-      ? `位置/朝向/尺寸有变化`
-      : `A ${ag.length}件 · B ${bg.length}件`
-  return { category: 'gear', label: '控光器材', same, hint }
+      ? t(language, 'sceneDiff.gear.changed')
+      : t(language, 'sceneDiff.gear.counts', { aCount: ag.length, bCount: bg.length })
+  return { category: 'gear', label: t(language, 'diffCategory.gear'), same, hint }
 }
 
-function diffPose(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffPose(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const same =
     a.people.length === b.people.length &&
     a.people.every((pa, i) => {
@@ -138,12 +140,15 @@ function diffPose(a: SceneConfig, b: SceneConfig): CategoryDiff {
       return samePose(pa.pose, pb.pose)
     })
   const hint = same
-    ? `姿态相同`
-    : `A 「${poseLabel(a.people[0])}」 · B 「${poseLabel(b.people[0])}」`
-  return { category: 'pose', label: '姿态', same, hint }
+    ? t(language, 'sceneDiff.pose.same')
+    : t(language, 'sceneDiff.pose.changed', {
+        aPose: poseLabel(a.people[0], language),
+        bPose: poseLabel(b.people[0], language),
+      })
+  return { category: 'pose', label: t(language, 'diffCategory.pose'), same, hint }
 }
 
-function diffCamera(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffCamera(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const aTargetMode = a.camera.targetMode ?? 'manual'
   const bTargetMode = b.camera.targetMode ?? 'manual'
   const sameLockedPerson =
@@ -158,20 +163,23 @@ function diffCamera(a: SceneConfig, b: SceneConfig): CategoryDiff {
     closeVec(a.camera.position, b.camera.position) &&
     closeVec(a.camera.target, b.camera.target)
   const hint = same
-    ? `焦段/机位相同`
-    : `A ${a.camera.focalLength}mm · B ${b.camera.focalLength}mm`
-  return { category: 'camera', label: '摄影机', same, hint }
+    ? t(language, 'sceneDiff.camera.same')
+    : t(language, 'sceneDiff.camera.changed', { aFocal: a.camera.focalLength, bFocal: b.camera.focalLength })
+  return { category: 'camera', label: t(language, 'diffCategory.camera'), same, hint }
 }
 
-function diffStudio(a: SceneConfig, b: SceneConfig): CategoryDiff {
+function diffStudio(a: SceneConfig, b: SceneConfig, language: AppLanguage): CategoryDiff {
   const same =
     a.studio.wallReflectance === b.studio.wallReflectance &&
     a.studio.floorReflectance === b.studio.floorReflectance &&
     a.studio.ambientLevel === b.studio.ambientLevel
   const hint = same
-    ? `反射/环境相同`
-    : `A 反射${a.studio.wallReflectance.toFixed(2)} · B 反射${b.studio.wallReflectance.toFixed(2)}`
-  return { category: 'studio', label: '白棚', same, hint }
+    ? t(language, 'sceneDiff.studio.same')
+    : t(language, 'sceneDiff.studio.changed', {
+        aReflectance: a.studio.wallReflectance.toFixed(2),
+        bReflectance: b.studio.wallReflectance.toFixed(2),
+      })
+  return { category: 'studio', label: t(language, 'diffCategory.studio'), same, hint }
 }
 
 // ─── shared helpers ─────────────────────────────────────────────────────────
@@ -221,25 +229,9 @@ function samePose(a: PoseConfig | undefined, b: PoseConfig | undefined): boolean
   )
 }
 
-function poseLabel(person: SceneConfig['people'][number] | undefined): string {
-  if (!person) return '无'
-  const id = person.pose?.presetId
-  if (!id) return '站立'
-  // Friendly labels for known presets; pass through the raw id if unknown.
-  switch (id) {
-    case 'neutral': return '自然站立'
-    case 'side-standing': return '侧身'
-    case 'head-to-key': return '头转向主光'
-    case 'head-down': return '低头'
-    case 'raise-hand': return '抬手'
-    case 'arms-down': return '双手下垂'
-    case 'hand-on-hip': return '叉腰'
-    case 'lean-forward': return '前倾'
-    case 'rim-stand': return '轮廓光姿势'
-    case 'seated': return '坐姿'
-    case 'seated-talk': return '前倾交谈'
-    case 'seated-hands-knees': return '手放膝'
-    case 'custom': return '自定义'
-    default: return id
-  }
+// v0.10.1: localized via getPosePresetLabel (which also maps legacy aliases).
+// no person → "none"; person with no presetId → standing fallback.
+function poseLabel(person: SceneConfig['people'][number] | undefined, language: AppLanguage): string {
+  if (!person) return getPosePresetLabel(language, 'none')
+  return getPosePresetLabel(language, person.pose?.presetId)
 }

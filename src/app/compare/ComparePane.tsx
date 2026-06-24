@@ -1,6 +1,7 @@
 import { summarizeLighting } from '../../domain/lightingSummary'
 import { StudioScene } from '../../scene/StudioScene'
 import type { SceneConfig } from '../../types'
+import { useLanguage } from '../../i18n/useT'
 import { ASPECT, letterbox, useElementSize } from '../canvasLayout'
 
 // One non-interactive camera-locked render, letterboxed to its own aspect.
@@ -18,6 +19,7 @@ export function ComparePane({
   subtitle?: string
 }) {
   const [ref, { w, h }] = useElementSize()
+  const language = useLanguage()
   const ratio = ASPECT[scene.camera.aspectRatio] ?? 16 / 9
   const { boxW, boxH } = letterbox(w, h, ratio)
 
@@ -39,7 +41,7 @@ export function ComparePane({
           </span>
         )}
         <span className="rounded bg-zinc-950/75 px-2 py-0.5 text-[10px] text-zinc-300 ring-1 ring-zinc-700">
-          {summarizeLighting(scene)}
+          {summarizeLighting(scene, language)}
         </span>
       </div>
     </div>

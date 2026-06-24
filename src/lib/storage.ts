@@ -1,9 +1,13 @@
-// LocalStorage persistence for saved lighting presets and custom fixtures.
+// LocalStorage persistence for saved lighting presets, custom fixtures, and the
+// selected UI language.
 
 import type { CustomFixturePreset, LightingPreset } from '../types'
+import { DEFAULT_LANGUAGE, isAppLanguage, type AppLanguage } from '../i18n/languages'
 
 const PRESETS_KEY = 'direct-light.presets.v1'
 const CUSTOM_FIXTURES_KEY = 'direct-light.customFixtures.v1'
+// v0.10: app language preference, kept independent from scenes and fixtures.
+const LANGUAGE_KEY = 'direct-light.language.v1'
 
 export function loadPresets(): LightingPreset[] {
   try {
@@ -40,6 +44,25 @@ export function loadCustomFixtures(): CustomFixturePreset[] {
 export function saveCustomFixtures(fixtures: CustomFixturePreset[]): void {
   try {
     localStorage.setItem(CUSTOM_FIXTURES_KEY, JSON.stringify(fixtures))
+  } catch {
+    // Quota or serialization issues are non-fatal for the prototype.
+  }
+}
+
+// v0.10: the selected UI language. An unknown/missing value degrades to the
+// default (zh-CN) so a stale or hand-edited key never breaks startup.
+export function loadLanguage(): AppLanguage {
+  try {
+    const raw = localStorage.getItem(LANGUAGE_KEY)
+    return isAppLanguage(raw) ? raw : DEFAULT_LANGUAGE
+  } catch {
+    return DEFAULT_LANGUAGE
+  }
+}
+
+export function saveLanguage(language: AppLanguage): void {
+  try {
+    localStorage.setItem(LANGUAGE_KEY, language)
   } catch {
     // Quota or serialization issues are non-fatal for the prototype.
   }

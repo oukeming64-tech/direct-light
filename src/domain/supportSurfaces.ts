@@ -1,4 +1,6 @@
 import type { PersonConfig, SceneObjectConfig } from '../types'
+import type { AppLanguage } from '../i18n'
+import { getSupportSurfaceLabel } from '../i18n/display'
 
 // v0.4b: a surface is either something you SIT on (chair/sofa/stool → seated
 // pose, hips at the seat top) or something you STAND on (table/platform/plinth/
@@ -50,40 +52,24 @@ export function getObjectSupportY(obj: SceneObjectConfig): number | null {
   }
 }
 
-export function getObjectSupportLabel(obj: SceneObjectConfig): string {
-  switch (obj.kind) {
-    case 'chair':
-      return '座面'
-    case 'sofa':
-      return '坐面'
-    case 'platform':
-      return '台面'
-    case 'table':
-      return '桌面'
-    case 'stool':
-      return '凳面'
-    case 'plinth':
-    case 'cylinderPlinth':
-      return '台座'
-    case 'box':
-      return '顶面'
-    default:
-      return '承载面'
-  }
-}
+// v0.10.1: the per-kind surface word is now localized in i18n/display.ts
+// (getSupportSurfaceLabel); the old Chinese-returning getObjectSupportLabel was
+// removed with the label move.
 
-export function getPersonSupportSurfaces(objects: SceneObjectConfig[]): SupportSurface[] {
+export function getPersonSupportSurfaces(
+  objects: SceneObjectConfig[],
+  language: AppLanguage,
+): SupportSurface[] {
   return objects
     .map((object) => {
       const y = getObjectSupportY(object)
       const role = getObjectSupportRole(object)
       if (y == null || role == null) return null
-      const verb = role === 'seat' ? '坐' : '站'
       return {
         object,
         y,
         role,
-        label: `${object.name} · ${getObjectSupportLabel(object)} ${y.toFixed(2)}m（${verb}）`,
+        label: getSupportSurfaceLabel(language, object, y, role),
       }
     })
     .filter((surface): surface is SupportSurface => surface !== null)

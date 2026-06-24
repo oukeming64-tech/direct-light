@@ -1,22 +1,20 @@
-import type { SceneConfig, LightConfig } from '../types'
+import type { SceneConfig } from '../types'
+import { t, type AppLanguage } from '../i18n'
+import { getLightTypeLabel } from '../i18n/display'
 
-const typeLabelMap: Record<LightConfig['type'], string> = {
-  hard: '硬光',
-  soft: '柔光',
-  panel: '面光',
-}
-
-export function summarizeLighting(scene: SceneConfig): string {
+export function summarizeLighting(scene: SceneConfig, language: AppLanguage): string {
   const on = scene.lights.filter((l) => l.enabled === true)
-  if (on.length === 0) return '无开启灯光'
+  if (on.length === 0) return t(language, 'lightingSummary.none')
 
   const key = on.reduce((a, b) => (b.intensity > a.intensity ? b : a))
-  const typeLabel = typeLabelMap[key.type]
-  const softPct = Math.round(key.softness * 100)
   const colorDesc =
-    key.colorTemperature != null
-      ? `${Math.round(key.colorTemperature)}K`
-      : key.color.toUpperCase()
+    key.colorTemperature != null ? `${Math.round(key.colorTemperature)}K` : key.color.toUpperCase()
 
-  return `${on.length} 灯 · 主${typeLabel} ${key.intensity.toFixed(1)} / 柔${softPct}% / ${colorDesc}`
+  return t(language, 'lightingSummary.line', {
+    count: on.length,
+    type: getLightTypeLabel(language, key.type),
+    intensity: key.intensity.toFixed(1),
+    softPct: Math.round(key.softness * 100),
+    color: colorDesc,
+  })
 }

@@ -1,7 +1,8 @@
 import { MAX_LIGHTS } from '../../data/defaults'
-import { LIGHT_TYPE_LABELS } from '../../data/rendering'
 import { effectiveLightColor } from '../../lib/color'
 import { useStore } from '../../state/store'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getLightTypeLabel } from '../../i18n/display'
 import { Group } from './Group'
 import { isSelected, rowBase, rowState } from './rowUtils'
 
@@ -13,21 +14,23 @@ export function LightsSection() {
   const addLight = useStore((s) => s.addLight)
   const duplicateLight = useStore((s) => s.duplicateLight)
   const removeLight = useStore((s) => s.removeLight)
+  const t = useT()
+  const language = useLanguage()
 
   return (
     <Group
-      title={`灯光 ${lights.length}/${MAX_LIGHTS}`}
+      title={t('objectList.lights.title', { current: lights.length, max: MAX_LIGHTS })}
       action={
         lights.length < MAX_LIGHTS ? (
           <button
             onClick={addLight}
             className="rounded px-1.5 text-lg leading-none text-zinc-400 hover:text-violet-300"
-            title="添加灯"
+            title={t('objectList.lights.add')}
           >
             ＋
           </button>
         ) : (
-          <span className="text-[10px] text-zinc-600">满 {MAX_LIGHTS}</span>
+          <span className="text-[10px] text-zinc-600">{t('common.full', { max: MAX_LIGHTS })}</span>
         )
       }
     >
@@ -49,10 +52,10 @@ export function LightsSection() {
                 background: light.enabled ? swatch : 'transparent',
                 borderColor: light.enabled ? swatch : '#52525b',
               }}
-              title={light.enabled ? '关灯' : '开灯'}
+              title={light.enabled ? t('objectList.lights.off') : t('objectList.lights.on')}
             />
             <span className={`flex-1 truncate ${light.enabled ? '' : 'text-zinc-500'}`}>{light.name}</span>
-            <span className="text-[10px] text-zinc-500">{LIGHT_TYPE_LABELS[light.type]}</span>
+            <span className="text-[10px] text-zinc-500">{getLightTypeLabel(language, light.type)}</span>
             <div className="flex items-center opacity-0 transition group-hover:opacity-100">
               <button
                 onClick={(e) => {
@@ -61,7 +64,7 @@ export function LightsSection() {
                 }}
                 disabled={lights.length >= MAX_LIGHTS}
                 className="px-1 text-zinc-400 hover:text-violet-300 disabled:opacity-30"
-                title="复制灯"
+                title={t('objectList.lights.duplicate')}
               >
                 ⧉
               </button>
@@ -71,7 +74,7 @@ export function LightsSection() {
                   removeLight(light.id)
                 }}
                 className="px-1 text-zinc-400 hover:text-red-300"
-                title="删除灯"
+                title={t('objectList.lights.delete')}
               >
                 ✕
               </button>

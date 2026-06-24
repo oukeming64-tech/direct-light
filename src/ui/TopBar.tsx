@@ -1,14 +1,18 @@
 import { useStore } from '../state/store'
 import { DEBUG_PRESETS } from '../data/rendering'
 import { exportPreviewImage } from './exportImage'
+import { useT, useLanguage } from '../i18n/useT'
+import { getDebugPresetTitle } from '../i18n/display'
+import { LanguageMenu } from './LanguageMenu'
+import type { MessageKey } from '../i18n/messages'
 import type { ViewMode } from '../types'
 
-const VIEWS: { value: ViewMode; label: string }[] = [
-  { value: 'camera', label: '镜头' },
-  { value: 'free', label: '自由' },
-  { value: 'top', label: '俯视' },
-  { value: 'side', label: '侧视' },
-  { value: 'compare', label: '对比' },
+const VIEWS: { value: ViewMode; labelKey: MessageKey }[] = [
+  { value: 'camera', labelKey: 'view.camera' },
+  { value: 'free', labelKey: 'view.free' },
+  { value: 'top', labelKey: 'view.top' },
+  { value: 'side', labelKey: 'view.side' },
+  { value: 'compare', labelKey: 'view.compare' },
 ]
 
 export function TopBar() {
@@ -16,6 +20,8 @@ export function TopBar() {
   const setViewMode = useStore((s) => s.setViewMode)
   const applyDebugPreset = useStore((s) => s.applyDebugPreset)
   const resetScene = useStore((s) => s.resetScene)
+  const t = useT()
+  const language = useLanguage()
 
   return (
     <header className="flex items-center justify-between gap-3 border-b border-zinc-800 bg-zinc-950/80 px-4 py-2.5">
@@ -23,7 +29,7 @@ export function TopBar() {
         <span className="grid h-7 w-7 place-items-center rounded-lg bg-violet-500/20 text-violet-200">◐</span>
         <div className="leading-tight">
           <div className="text-sm font-semibold text-zinc-100">Direct Light</div>
-          <div className="text-[10px] text-zinc-500">白棚灯光预演 · v0.9.0</div>
+          <div className="text-[10px] text-zinc-500">{t('topBar.subtitle')} · v1.0.0</div>
         </div>
       </div>
 
@@ -38,7 +44,7 @@ export function TopBar() {
                 : 'text-zinc-300 hover:bg-zinc-700/60'
             }`}
           >
-            {v.label}
+            {t(v.labelKey)}
           </button>
         ))}
       </div>
@@ -49,7 +55,7 @@ export function TopBar() {
             <button
               key={p.id}
               onClick={() => applyDebugPreset(p.id)}
-              title={p.description}
+              title={getDebugPresetTitle(language, p.id)}
               className="rounded-md border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-300 hover:border-violet-400/60 hover:text-violet-200"
             >
               {p.name}
@@ -60,15 +66,16 @@ export function TopBar() {
           onClick={exportPreviewImage}
           className="rounded-md bg-violet-500/90 px-3 py-1.5 text-xs font-medium text-white hover:bg-violet-500"
         >
-          导出图片
+          {t('topBar.exportImage')}
         </button>
         <button
           onClick={resetScene}
           className="rounded-md border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-400 hover:text-zinc-200"
-          title="重置为默认场景"
+          title={t('topBar.resetTitle')}
         >
-          重置
+          {t('topBar.reset')}
         </button>
+        <LanguageMenu />
       </div>
     </header>
   )

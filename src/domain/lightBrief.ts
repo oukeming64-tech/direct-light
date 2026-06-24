@@ -1,47 +1,31 @@
-import type { LightConfig } from '../types'
-import { FIXTURE_PRESETS } from '../data/fixturePresets'
-import { LIGHT_MODIFIER_PRESETS } from '../data/lightModifiers'
+import type { CustomFixturePreset, LightConfig } from '../types'
+import { findFixtureById } from './customFixtures'
+import { getLightModifierPreset } from './lightModifiers'
+import { t, type AppLanguage } from '../i18n'
+import { getFixtureDisplayLabel, getModifierEffectPhrase, getModifierLabel } from '../i18n/display'
 
 // v0.6b director-facing brief. Generates a one-line summary for the selected
-// light in camera view. Copy verbatim from V0_6B_VISUAL_BRIEF_SPEC.md §4:
-// - 有灯具 + 有附件: `Key Light · Nanlux Evoke 600C · 中号柔光箱 · 柔光主光`
-// - 有灯具 + 无附件: `Key Light · Nanlux Evoke 600C · 无附件`
-// - 无灯具 + 有附件: `Key Light · 自定义灯具 · 柔光布 · 扩散片`
-// - 无灯具 + 无附件: `Key Light · 自定义灯具 · 无附件`
-export function getLightBrief(light: LightConfig): string {
-  const fixture = FIXTURE_PRESETS.find(f => f.id === light.fixturePresetId)
-  const modifier = LIGHT_MODIFIER_PRESETS.find(m => m.id === light.modifierId)
+// light in camera view. v0.10.1: localized via display helpers. Examples:
+// - built-in + modifier: `Key Light · Nanlux Evoke 600C · medium softbox · soft key`
+// - built-in + none:     `Key Light · Nanlux Evoke 600C · no modifier`
+// - custom + none:       `Key Light · <authored label> · no modifier`
+// `light.name` and custom fixture labels stay user-authored.
+export function getLightBrief(
+  light: LightConfig,
+  language: AppLanguage,
+  customFixtures: CustomFixturePreset[] = [],
+): string {
+  const fixture = findFixtureById(light.fixturePresetId, customFixtures)
+  const modifier = getLightModifierPreset(light.modifierId)
 
-  const namePart = light.name || '未命名灯'
-  const fixturePart = fixture ? fixture.label : '自定义灯具'
+  const namePart = light.name || t(language, 'lightBrief.unnamed')
+  const fixturePart = fixture ? getFixtureDisplayLabel(language, fixture) : t(language, 'lightBrief.customFixture')
 
   if (modifier) {
-    const effectPart = getModifierEffectPhrase(modifier.id)
-    return `${namePart} · ${fixturePart} · ${modifier.label} · ${effectPart}`
+    const modifierPart = getModifierLabel(language, modifier.id)
+    const effectPart = getModifierEffectPhrase(language, modifier.id)
+    return `${namePart} · ${fixturePart} · ${modifierPart} · ${effectPart}`
   }
 
-  return `${namePart} · ${fixturePart} · 无附件`
-}
-
-// Effect phrase mapping from V0_6B_VISUAL_BRIEF_SPEC.md §4 table.
-// | 附件 | 效果短语 |
-// | --- | --- |
-// | 中号柔光箱 | 柔光主光 |
-// | 蜂巢 | 收束控光 |
-// | 标准反光罩 | 集中硬光 |
-// | 柔光布 | 扩散片 |
-// | 无附件 | 可手动调光 |
-function getModifierEffectPhrase(modifierId: string): string {
-  switch (modifierId) {
-    case 'softbox-medium':
-      return '柔光主光'
-    case 'honeycomb-grid':
-      return '收束控光'
-    case 'standard-reflector':
-      return '集中硬光'
-    case 'diffusion-cloth':
-      return '扩散片'
-    default:
-      return '可手动调光'
-  }
+  return `${namePart} · ${fixturePart} · ${t(language, 'lightBrief.noModifier')}`
 }

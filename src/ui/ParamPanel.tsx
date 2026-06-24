@@ -1,4 +1,5 @@
 import { useStore } from '../state/store'
+import { useT } from '../i18n/useT'
 import { LightPanel } from './LightPanel'
 import { PersonPanel } from './PersonPanel'
 import { ObjectPanel } from './ObjectPanel'
@@ -16,11 +17,12 @@ export function ParamPanel() {
 }
 
 function EmptyState() {
+  const t = useT()
   return (
     <div className="flex h-full items-center justify-center p-6 text-center text-sm text-zinc-500">
-      在左侧或场景中选择一个对象
+      {t('paramPanel.empty.line1')}
       <br />
-      （人物 / 灯光 / 摄影机 / 白棚）
+      {t('paramPanel.empty.line2')}
     </div>
   )
 }

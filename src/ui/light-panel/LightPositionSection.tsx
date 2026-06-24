@@ -1,4 +1,5 @@
 import type { LightConfig } from '../../types'
+import { useT } from '../../i18n/useT'
 import { PanelSection, Slider } from '../controls'
 
 export function LightPositionSection({
@@ -14,10 +15,11 @@ export function LightPositionSection({
   onPatch: (patch: Partial<LightConfig>) => void
   onSetPolar: (distance: number, azimuth: number) => void
 }) {
+  const t = useT()
   return (
-    <PanelSection title="强度 / 位置">
+    <PanelSection title={t('lightPanel.section.intensity')}>
       <Slider
-        label="亮度"
+        label={t('lightPanel.intensity')}
         min={0}
         max={3}
         step={0.05}
@@ -25,7 +27,7 @@ export function LightPositionSection({
         onChange={(value) => onPatch({ intensity: value })}
       />
       <Slider
-        label="高度"
+        label={t('lightPanel.height')}
         min={0.5}
         max={5}
         step={0.05}
@@ -34,7 +36,7 @@ export function LightPositionSection({
         onChange={(value) => onPatch({ position: { ...light.position, y: value } })}
       />
       <Slider
-        label="距离（到人物）"
+        label={t('lightPanel.distanceToPerson')}
         min={1.5}
         max={12}
         step={0.1}
@@ -43,7 +45,7 @@ export function LightPositionSection({
         onChange={(value) => onSetPolar(value, azimuth)}
       />
       <Slider
-        label="角度（方位）"
+        label={t('lightPanel.azimuth')}
         min={-180}
         max={180}
         step={1}

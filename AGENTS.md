@@ -1,120 +1,59 @@
 # Codex Brief: Direct Light
 
-This project is a prototype for a white studio lighting simulation app.
+Direct Light is a white-studio lighting previz prototype for directors, DPs, and gaffers.
 
-Read these documents first:
+## Read First
 
-1. `README.md`: full product requirements in Chinese.
-2. `ARCHITECTURE.md`: code structure, module boundaries, and where new files should live.
-3. `RENDERING_SPEC.md`: rendering numbers, default lights, shadow behavior, and Three.js guidance.
-4. `ROADMAP.md`: post-v0.1 roadmap for multiple actors, studio structures/props/mannequins, poses, fixture presets, and modifiers.
-5. `COLLABORATION.md`: team split, version log, completed work, and current todo list.
-6. `HERMES.md`: rules for using Hermes as a bounded code-drafting agent, plus the latest Hermes handoff notes.
-7. `HERMES_LESSONS.md`: concrete misses from previous Hermes handoffs and review fixes Hermes must learn from.
-8. `V0_4C_CAMERA_SPEC.md`: exact product spec, UI copy, write scope, and acceptance criteria for camera controls.
-9. `STORE_ACTION_SPLIT_SPEC.md`: completed v0.4.8 no-behavior-change store split reference.
-10. `V0_5_FIXTURE_SPEC.md`: Codex-finalized product/data/UI scope for the fixture preset library.
-11. `V0_5_1_RENDERING_CREDIBILITY_SPEC.md`: completed v0.5.1 render credibility scope, user visual acceptance passed on 2026-06-20.
-12. `V0_6_MODIFIER_SPEC.md`: completed v0.6a control-modifier product/data/UI/write scope and remaining v0.6 split.
-13. `V0_6B_VISUAL_BRIEF_SPEC.md`: completed v0.6b accessory-visual and director-view brief scope. Read before touching modifier visuals or camera-view light summaries.
-14. `V0_6C_GEAR_SPEC.md`: completed v0.6c scope for in-studio standalone control gear — black flag / reflector board / diffusion frame as scene-object kinds. User visual acceptance passed on 2026-06-21.
-15. `V0_6D_OPTICS_SPEC.md`: completed v0.6d optical-approximation scope. User visual acceptance passed on 2026-06-21.
-16. `V0_6E_CLOSEOUT_SPEC.md`: completed v0.6e closeout scope. User visual acceptance passed on 2026-06-21; v0.6 control line is complete.
-17. `V0_8_MULTI_LIGHT_SPEC.md`: completed v0.8 more-lights / multi-light-management split, write scope, non-goals, and acceptance criteria. Read before touching `MAX_LIGHTS`, `LightsSection`, `LightRig`, or light actions.
-18. `V0_9_CUSTOM_FIXTURE_SPEC.md`: v0.9 custom-fixture import/export split (complete, user-accepted 2026-06-23), JSON schema, write scope, and pure-function/store/UI wiring. Read before touching `customFixtures`, `customFixturePack`, `fixtureActions`, the 器械 dropdown, or `applyFixturePreset`.
-19. `src/data/sceneObjects.ts`: current object / structure / support-surface presets, dimensions, materials, and communication-scene defaults.
+Keep startup context small:
 
-Current v0.5.1 note: v0.5.1 = render credibility, implemented by Codex, reviewed by Codex, and user visual acceptance passed on 2026-06-20. It adds a one-piece cyclorama helper (`src/scene/studioGeometry.ts`), visible softbox/panel/tube bodies (`src/scene/LightVisual.tsx` wired through `LightRig.tsx`), and floor-reflectance weighting in `src/data/rendering.ts` + `src/scene/lighting.ts`. Codex review added click/drag handlers to the visible light body and bumped the top bar to v0.5.1. Do not reimplement this scope; only fix concrete acceptance bugs.
+1. `COLLABORATION.md` — current state, active version line, and document map.
+2. `ARCHITECTURE.md` — module boundaries when changing code.
+3. The directly relevant spec for the files you will touch.
 
-Current v0.6/v0.7 note: v0.6a modifier main integration has landed and passed user visual acceptance on 2026-06-20. Codex wired `applyLightModifier`, `LightModifierSection`, LightRig effective params, colored-bounce spill multiplier, and A/B light diff. Codex tuned `softbox-medium` vs `diffusion-cloth` because the first values looked too similar on soft lights; the accepted values are the source of truth. **v0.6b also landed and passed user visual acceptance on 2026-06-20** (per `V0_6B_VISUAL_BRIEF_SPEC.md`; user authorized Codex to do the acceptance in Codex's place since Codex was out of quota this round). v0.6b adds visible 3D modifier bodies, a pure director brief, and the camera-view brief overlay. **v0.6c has landed and passed user visual acceptance on 2026-06-21.** Scope finalized by user: drop the separate "旗板" (flag == black flag; white flag board == reflector board) → only 3 gear: 黑旗 (`blackFlag`) / 反光板 (`reflectorBoard`) / 柔光布框 (`diffusionFrame`), plus `scrimWhite`. Gear are scene objects using `geometry:'gearPanel'`; the add-object dropdown is split into 道具/结构 + 控光器材 optgroups. v0.6c is zero-optics on purpose (`castShadow:false`/`receiveShadow:false`) and gear is intentionally NOT a support surface. **v0.6d has landed and passed user real-machine visual acceptance on 2026-06-21**: black flag cut/negative fill, reflector virtual fill, and diffusion-frame softening are derived from scene objects through pure helpers, not physical shadows or a second gear store. Acceptance fix: `ObjectPanel` hides the material selector for gear via `isControlGearKind`, while color/size/shadow controls remain available. **v0.6e has landed and passed user visual acceptance on 2026-06-21**: A/B now splits control gear from props, save/load/duplicate/A-B/export closeout is accepted, README has the open-source-limit note, and TopBar was then `v0.6e`. v0.6 is complete. **v0.7 open-source-ready first release and v0.7.1 desktop/icon closeout have landed (2026-06-21).** v0.7.0 was an engineering/docs closeout, not a visual feature: added MIT `LICENSE` (© 2026 Keming Ou), `CONTRIBUTING.md`, `CHANGELOG.md`, English `README.en.md`; reworked `README.md` with an open-source front door above the existing PRD; filled out `package.json` metadata (description/license/author/repository/keywords/engines, version `0.7.0`); cleaned repo junk and tightened `.gitignore`; bumped the TopBar badge `v0.6e → v0.7.0`; `tsc·lint·build` green. Decisions made with the user: license **MIT**, copyright **Keming Ou**, first OSS release did not depend on desktop packaging, then user picked **Tauri** for desktop packaging, and **English README** was added. The repo was `git init`'d and **open-sourced to https://github.com/oukeming64-tech/direct-light** (public) as the v0.7.0 first release — the user confirmed the GitHub account `oukeming64-tech` and asked to publish; `package.json` `repository`/`homepage`/`bugs` point at that repo. The personal retrospective `个人重构/` is kept **private and out of the repo** (gitignored + untracked) per the user's explicit choice ("复盘自己保留"). A **live demo auto-deploys to GitHub Pages** via `.github/workflows/deploy.yml` on every push to `main` — https://oukeming64-tech.github.io/direct-light/ ; `vite.config.ts` applies `base: '/direct-light/'` only for production builds (dev/preview stay at root `/`). **Desktop packaging chosen: Tauri** (user picked it). `src-tauri/` was scaffolded via the JS CLI (no local Rust needed — the host has Xcode CLT but no Rust toolchain; the Rust compile runs in CI on a `macos-latest` runner). `vite.config.ts` now keys `base` off Vite `mode`: `--mode tauri` → relative `./` (desktop protocol), Pages build → `/direct-light/`, dev → `/`. `package.json` adds `build:tauri` + `tauri` scripts; `tauri.conf.json` uses identifier `com.oukeming64.directlight`, version `0.8.0`, a 1280×820 window. `.github/workflows/release.yml` builds a **universal** (arm64+x86_64) macOS app via `tauri-apps/tauri-action` on `v*` tag push and attaches the `.dmg` to a GitHub **Release (draft by default)** — unsigned (no Apple Developer account; user explicitly skips App Store). CI built both the **v0.7.0** and **v0.7.1** universal macOS `.dmg`s (~6.6MB / ~9.3MB) and they are **published** at https://github.com/oukeming64-tech/direct-light/releases (v0.8.0 is now latest; see the v0.8 release note below). The app icon was replaced in **v0.7.1** with the user-provided 1024×1024 art (studio / figure / purple aperture) via `npx tauri icon` (source kept at repo root `app-icon.png`; unused iOS/Android variants removed). The frontend `build:tauri` (relative paths) is verified locally; the Rust build/bundle is verified by CI on tag push. Post-open-source sequence now has v0.8 more lights / multi-light management and v0.9 custom fixture preset import/export complete and user-accepted; multilingual UI remains deliberately postponed until the core scene and preset schema settle.
+Do not load every historical `V0_*_SPEC.md` by default. Old details live in `docs/history/COLLABORATION_HISTORY_2026-06-23.md` and should be opened only when needed.
 
-Current architecture note: Codex completed an open-source-readiness split on 2026-06-20 with no intended behavior change. `AppShell` is now a layout shell; stage/view-badge/A/B compare live in `src/app/Stage.tsx`, `src/app/ViewBadge.tsx`, `src/app/canvasLayout.ts`, and `src/app/compare/*`. `src/ui/LightPanel.tsx` and `src/ui/ObjectList.tsx` are compatibility re-export shells; real code lives in `src/ui/light-panel/*` and `src/ui/object-list/*`. v0.6b/c/d/e and v0.7 packaging are already in their own modules/files (`LightModifierVisual`, `DirectorLightBrief`, `lightBrief`, `sceneObjects` gear presets, `SceneObjects` gearPanel, `controlGearOptics`, `sceneDiff` gear split, `src-tauri`, GitHub workflows). For v0.8/v0.9, keep implementation in focused domain/app/helpers/data/UI submodules; do not put new implementation back into shell files or invent stored gear-optics state.
+## Current Work
 
-Current roadmap note: v0.6, v0.7, v0.7.1, and v0.8 are complete. The project is public, GitHub Pages is live, and the macOS desktop Release is published. v0.8 more lights / multi-light management passed user visual acceptance on 2026-06-22 (`MAX_LIGHTS = 6`, default scene still Key/Fill/Rim). v0.9 custom fixture preset import/export is complete and user-accepted (2026-06-23, Claude-led): v0.9a (JSON schema + pure helpers), v0.9b (pack-level file import/export + validation), v0.9c (器械 dropdown merge + `customFixtures` store slice + localStorage + 存当前灯为器械/导入/导出), and v0.9d (carry verification + TopBar `v0.9.0` + docs) all landed, `tsc·lint·build` green; built-in behavior unchanged. Multilingual UI moves later so new feature fields do not force repeated translation churn. Do not reopen v0.7/v0.8/v0.9 unless fixing a concrete release/docs regression.
+- Released baseline: `v1.0.0` (first stable release — multilingual UI complete; user chose 1.0.0 over 0.10.0).
+- v0.10 multilingual UI is complete locally and user-accepted on 2026-06-24.
+- i18n foundation, v0.10b tier-A UI extraction, and v0.10.1 built-in display labels + `sceneDiff` localized copy are complete.
+- Next release operation: Claude can commit/push and tag `v0.10.0`.
+- `LIGHT_TYPE_LABELS` and `LIGHT_TARGET_MODE_LABELS` are unused but intentionally retained until a later Codex-approved cleanup.
 
-Current v0.8 release / CI note: **v0.8.0 is released and is the latest GitHub Release** — web demo (GitHub Pages) plus a published universal macOS `.dmg`; versions are bumped to `0.8.0` across `TopBar`/`package.json`/`tauri.conf.json`/`Cargo.toml`. The first v0.8.0 desktop build **failed** because no `Cargo.lock` was committed, so every tag re-resolved Rust deps and pulled a freshly-broken upstream `time` 0.3.50 (`unresolved import time_macros::timestamp`). Fix: `src-tauri/Cargo.lock` is now **committed** (with `time` pinned to 0.3.49); a `workflow_dispatch` workflow `.github/workflows/lockfile.yml` regenerates + commits the lock on demand; and `release.yml` now builds from the committed lock so desktop builds are reproducible. Do **not** re-add an inline time-pin or `cargo generate-lockfile` step to `release.yml` — refresh deps via the "Update Cargo.lock" workflow instead. (`--locked` strict enforcement was left as optional further hardening.) The `time` 0.3.49 pin in `lockfile.yml` is **temporary** (a comment there says so): once a fixed upstream `time` 0.3.51+ ships, bump or delete that `--precise` line so `time` tracks the rest of the deps again; other crates are unaffected by the pin. The committed lock is a point-in-time snapshot — it won't drift old on its own, but it also won't auto-update, so refresh it (workflow / `cargo update`) before releases to pull current deps.
+## Hard Boundaries
 
-Current v0.9 note: **v0.9 custom fixture import/export is complete and user-accepted (Claude-led, 2026-06-23); v0.9a/b/c/d all landed, TopBar `v0.9.0`.** Spec `V0_9_CUSTOM_FIXTURE_SPEC.md`. Decided with the user: authoring = file import/export **plus** 存当前灯为器械; field scope = **mirror the full built-in `FixturePreset`** (custom fixtures are interchangeable with built-ins in the dropdown / `applyFixturePreset` / capability label / A-B). v0.9a: the `FixturePreset` type was moved into `src/types.ts` as the single source (`data/fixturePresets.ts` now re-exports it), plus `FixtureSource` / `CustomFixturePreset` / `CustomFixturePack`; pure module `src/domain/customFixtures.ts` — `normalizeCustomFixture` validates/clamps an untrusted value into a `CustomFixturePreset` (hard errors: not-object / no label / no directLightDefaults; soft: enum/range/color fallbacks → warnings; `directLightDefaults` clamp ranges == the UI slider ranges so all 8 built-ins normalize with zero warnings and seeded values stay slider-reachable), `buildCustomFixtureFromLight` (存当前灯), `getAllFixtures`/`findFixtureById` (built-in first), `isCustomFixture`/`isReservedFixtureId`; custom ids are always `custom-`-prefixed (never collide with built-ins). v0.9b: `src/domain/customFixturePack.ts` — `parseCustomFixturePack` accepts a pack envelope / bare array / single object, prefixes per-entry issues with `第 N 条`, de-dups ids within the pack and against `takenIds`, never throws; `serializeCustomFixturePack` writes the pretty pack. v0.9c: `customFixtures` store slice + `direct-light.customFixtures.v1` localStorage (`loadCustomFixtures`/`saveCustomFixtures` in `src/lib/storage.ts`), `src/state/actions/fixtureActions.ts` (`saveCurrentLightAsFixture`/`removeCustomFixture`/`importCustomFixtures`/`exportCustomFixtures`), `applyFixturePreset` now resolves via `findFixtureById(id, s.customFixtures)` (built-in behavior unchanged), `LightBaseSection` dropdown split into 内置器械/我的器械 optgroups + 自定义 badge, new `LightFixtureActions.tsx` (存当前灯为器械 / 导入 / 导出 / 删除此器械). **`customFixtures` is a separate store slice, NOT in `SceneConfig`** — a saved scene referencing a deleted custom fixture degrades to 自定义参数 via `findFixtureById`→undefined, so `sceneMigration` needs no change. Deterministic self-tests passed (v0.9a 86/0, v0.9b 19/0; run by transpiling to CJS with `tsc` since this repo has no resolvable esbuild — temp files deleted). v0.9d verified the carry paths by reading code (save-scene `structuredClone`+`normalizeLight ...light`, duplicate-light `structuredClone`, A-B scene clone, and `sceneDiff` having no fixture ref per spec §8; a deleted custom fixture's dangling id degrades to 自定义参数 via `findFixtureById`→undefined); Codex later added a small `LightBaseSection` select-value fallback so missing resolved fixture ids visibly degrade to 自定义参数. TopBar is bumped to `v0.9.0` (the product-iteration marker); `package.json`/`tauri.conf.json`/`Cargo.toml` stay at `0.8.0` until an actual desktop/web release is cut (a separate step, NOT done this turn — avoids re-touching the committed `Cargo.lock`), matching the project's history where TopBar leads the release semver. Per the working agreement, pure logic was self-verified but the dropdown / import-export / persistence visuals went to user acceptance (passed 2026-06-23; do not drive the R3F preview).
+- Language is an app preference, not scene data.
+- Do not add language fields to `SceneConfig`, saved presets, A/B snapshots, custom fixtures, or custom fixture packs.
+- Do not translate user-authored names, custom fixture labels, brands, model names, ids, units, or JSON schema fields.
+- Do not mutate built-in data tables just to change display language; use display helpers keyed by id.
+- Do not add a heavy i18n dependency unless the user explicitly approves it.
+- Do not reopen v0.7/v0.8/v0.9 or completed v0.6 rendering/gear work unless fixing a concrete regression.
 
-Current v0.5.0 note: v0.5.0 = fixture preset library, user real-machine accepted on 2026-06-20. `types.ts` gained fixture enums (`FixtureCategory`/`FixtureColorEngine` incl. `tungsten`/`FixturePowerClass`/`FixtureUse`) + `LightConfig.fixturePresetId?`; `src/data/fixturePresets.ts` has 8 presets (Hermes verbatim draft of the Codex spec); `applyFixturePreset` in `actions/lightActions.ts` seeds the light-quality params and keeps position/target/enabled (`undefined`→clear marker only); `LightPanel` 基础 section has a 器械 dropdown, fixture-name subtitle, and the `全彩/双色温/暖色/白光` capability label. `tsc·lint·build` green, deterministic self-test passed, user visual acceptance passed. — v0.4.8 split `src/state/store.ts` (685→38 lines) per `STORE_ACTION_SPLIT_SPEC.md` — new `storeTypes.ts`/`storeHelpers.ts` and 8 `createXActions` factories in `src/state/actions/*`; the 8 factory files were drafted verbatim by OpenRouter glm-5.2 and audited group-by-group by Codex; no behavior change, `tsc·lint·build` green, app renders identically. Callers still import `useStore` from `../state/store`. — v0.4.6 A/B compare guidance and v0.4.7 = v0.4c camera control are user-accepted (done). v0.4.7 was built to `V0_4C_CAMERA_SPEC.md`: `CameraConfig` gained `targetMode?`/`targetPersonId?` (`CameraTargetMode = manual|person|peopleCenter`), migrated to `manual` + first person; CameraPanel has 镜头/机位(方位角·距离·高度·看向高度)/目标(手动·锁定人物·多人中心 + 对准一次)/机位预设(5)/从自由视角取景 sections. New pure modules `src/domain/cameraMath.ts` and `src/data/cameraPresets.ts` were drafted by OpenRouter glm-5.2 and audited by Codex; store actions (`setCameraTargetMode`/`aimCameraAtPerson`/`applyCameraPreset`/`requestFreeCameraCapture`/`setCameraFromFree`/`setCameraPositionXZ`) + the `FreeCameraCaptureBridge`, `FreeCameraClamp`, migration/diff were written by Codex. User-added follow-ups are also accepted: camera stays clamped inside the readable studio volume, free/top view can drag the camera gizmo, and the free-view 看向高度 slider no longer moves the whole scene. `src/domain/sceneMigration.ts` still normalizes older saved presets/snapshots; binding (`supportObjectId`) and camera target fields are preserved.
+## Architecture Rules
 
-Important user vocabulary: when the user says “人台”, they may mean either a clothing mannequin or a load-bearing live-stream round mini stage. Clothing mannequins remain `mannequin`; the round mini stage is `stage-round-live` under `platform`.
+- Keep `src/App.tsx` and `src/app/AppShell.tsx` thin.
+- `src/ui/LightPanel.tsx` and `src/ui/ObjectList.tsx` are re-export shells; implementation belongs in their subdirectories.
+- State actions belong in `src/state/actions/*`; do not put action logic back into `src/state/store.ts`.
+- Rendering code belongs in `src/scene/*`.
+- Domain/business helpers belong in `src/domain/*`.
+- Stable specs and presets belong in `src/data/*`.
 
-Next development sequence:
+## Working Agreements
 
-1. ~~Light architecture split (ParamPanel + StudioScene).~~ ✅ Done in v0.4.3.
-2. ~~Build v0.4b: seated pose + support-surface linkage + forearm yaw.~~ ✅ Done in v0.4.4 (user-verified).
-3. ~~attach-to-support live binding.~~ ✅ Done in v0.4.5 (user-verified, Hermes + Codex review).
-4. ~~A/B compare product guidance.~~ ✅ Done in v0.4.6 (Hermes draft, Codex review/fix, user-accepted).
-5. ~~v0.4c camera control (per `V0_4C_CAMERA_SPEC.md`).~~ ✅ Done in v0.4.7 (glm-5.2 draft of pure modules + Codex integration, user-accepted).
-6. ~~Implement `STORE_ACTION_SPLIT_SPEC.md`, no behavior changes.~~ ✅ Done in v0.4.8 (glm-5.2 verbatim draft of 8 action factories + Codex audit/integration).
-7. ~~v0.5 fixture preset library (per `V0_5_FIXTURE_SPEC.md`).~~ ✅ Done in v0.5.0 and user-accepted (`fixturePresets.ts`, fixture types, `applyFixturePreset`, `LightPanel` 器械 dropdown + capability label).
-8. ~~v0.5.1 render credibility.~~ ✅ Done and user-accepted on 2026-06-20.
-9. ~~Open-source-readiness UI/app split.~~ ✅ Done by Codex on 2026-06-20; no intended behavior change, `lint`/`build` green.
-10. ~~v0.6b accessory visuals + camera-view director brief per `V0_6B_VISUAL_BRIEF_SPEC.md`.~~ ✅ Done and user-accepted on 2026-06-20 (modifier bodies made solid 3D forms at user request; acceptance done by Codex in Codex's place per user authorization).
-11. ~~v0.6c in-studio standalone control gear per `V0_6C_GEAR_SPEC.md`.~~ ✅ Done and user-accepted on 2026-06-21 (3 gear: black flag / reflector board / diffusion frame as scene-object kinds, placement/visual only, zero optics).
-12. ~~v0.6d optical approximation on the v0.6c gear per `V0_6D_OPTICS_SPEC.md`.~~ ✅ Done and user real-machine accepted on 2026-06-21; acceptance fix also hides the gear material selector in `ObjectPanel`.
-13. ~~v0.6e closeout per `V0_6E_CLOSEOUT_SPEC.md`.~~ ✅ Done and user-accepted on 2026-06-21; TopBar is `v0.6e` and v0.6 is complete.
-14. ~~v0.7 open-source-ready first release / desktop packaging.~~ ✅ Done by Codex/Claude Code; public GitHub repo, GitHub Pages, Tauri macOS release CI, and v0.7.1 app icon are complete.
-15. ~~v0.8 more lights / multi-light management.~~ ✅ Done and user-accepted on 2026-06-22.
-16. ~~v0.9 custom fixture preset import/export.~~ ✅ Done and user-accepted on 2026-06-23 (Claude-led): a (schema/pure fns), b (file import/export/validate), c (dropdown/store/persistence), d (carry verification + TopBar `v0.9.0` + docs); built-in behavior unchanged, `tsc·lint·build` green.
-17. Next: multilingual UI after the core feature and preset schema are steadier.
+- OpenRouter is Claude Code's code-drafting path, not Hermes. Codex reviews specs, product wording, architecture choices, and outcomes.
+- Hermes is separate and user-relayed. Use `HERMES.md` only when preparing or reviewing an explicit Hermes handoff.
+- A Direct Light feature is not done if current docs still describe it as next, unfinished, or not accepted.
+- Human verifies small pose/rig visual tweaks; run deterministic checks, then hand them to the user.
+- User visual acceptance is authoritative for visual/product feel.
 
-## Working agreements (重要约定)
-
-These are standing rules for how Codex should work on this project. Follow them by default.
-
-1. **OpenRouter is Claude Code's subagent path; Codex reviews specs and outcomes.** OpenRouter is not Hermes. In this project, `z-ai/glm-5.2`, `qwen3.7-max`, or `qwen3-coder` are used as code-drafting subagents by Claude Code against a precise spec. Claude Code then audits line-by-line, integrates, and verifies. Codex should write/adjust specs, review product and architecture decisions, and avoid describing OpenRouter as a Hermes-equivalent external handoff.
-
-2. **Human verifies human-pose tweaks — not Codex.** When a change is a small adjustment to the person/pose rig (joint angles, seated fold, arm/forearm DOFs, pose presets), do NOT burn tokens driving the browser preview to "see" it. R3F / the preview canvas throws spurious black-canvas / resize glitches that make visual self-verification unreliable, but the human eye does not. So: make the code change, confirm `tsc`/`lint`/`build` are green, then hand it to the user to eyeball. When the user says “通过 / passed”, it's passed — done. (Still verify non-pose, deterministic changes normally where it's cheap and reliable.)
-
-3. **Hermes is separate from OpenRouter.** Hermes is an auxiliary standalone code agent for bounded drafts when Codex/Claude quota is tight; product decisions stay with user + Codex, final engineering judgment with Claude/Codex. Hermes follows `HERMES.md` and hands back changed files, validation, known limits.
-   - **How to dispatch Hermes (Codex has no Hermes tool):** Codex cannot call Hermes directly. To use Hermes, write a precise handoff doc — name the exact subtask, write scope (which files), the verbatim spec/values, and the report format — then tell the user; the user relays it to Hermes. (See `HERMES.md §5` handoff format.)
-   - **When to use Hermes vs OpenRouter:** Hermes is a separate user-relayed agent. OpenRouter is Claude Code's subagent drafting path. If Claude Code is implementing and wants mechanical code draft speed, Claude Code may call OpenRouter and then review/integrate it. If the goal is to save Codex/Claude quota via a separate agent, write a Hermes handoff for the user to relay.
-4. **Do not blur ownership.** If a task is marked Codex-owned, Hermes may only draft the exact subtask named in a handoff. Codex / Claude Code must do final integration, validation, and status updates according to the owner named in the handoff.
-
-## Goal
+## Current Product Goal
 
 Build a usable web prototype that helps directors preview how people, light position, light distance, fixture type, light color, and light height affect illumination and shadows inside a white studio.
 
-## Priorities
+Most important behavior:
 
-1. Make light changes visibly affect the person and shadows in real time.
-2. Keep the interface simple: scene view, object list, parameter panel, preset bar.
-3. Favor an interactive prototype over physically perfect rendering.
-4. Use clear data structures for studio, people, lights, camera, and saved presets.
-5. Update `COLLABORATION.md` whenever a meaningful feature, fix, or decision lands.
-6. Keep `src/App.tsx` thin. Put scene, state, panels, data, and pure helpers in their own modules as defined in `ARCHITECTURE.md`.
-
-## Suggested MVP
-
-- One white studio space
-- One simplified standing person
-- Up to three lights
-- Adjustable light position, height, distance, angle, intensity, color, color temperature, and softness
-- Hard light, soft light, and panel light modes
-- Camera view and top-down view
-- Save and restore lighting presets locally
-- Export current preview image if practical
-
-## Suggested stack
-
-Use a frontend-only web app unless the user asks otherwise.
-
-Good options:
-
-- React or Next.js
-- Three.js or React Three Fiber
-- Local state management with Zustand or equivalent
-- LocalStorage for saved presets
-
-## Important product behavior
-
-The app should clearly show:
-
-- Lower lights create longer ground shadows.
-- Higher lights create shorter ground shadows.
-- Hard lights create sharper shadows.
-- Soft lights create softer shadows.
-- Colored lights tint the person and white studio surfaces.
+- Light changes visibly affect people and shadows in real time.
+- Lower lights create longer ground shadows; higher lights create shorter shadows.
+- Hard/soft/panel lights read differently.
+- Colored lights tint people and white studio surfaces.
 - White studio reflectance makes shadows lighter and the image flatter.

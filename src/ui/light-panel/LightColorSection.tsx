@@ -1,5 +1,7 @@
 import { COLOR_PRESETS, COLOR_TEMPERATURE_PRESETS } from '../../data/rendering'
 import type { LightConfig } from '../../types'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getColorPresetLabel } from '../../i18n/display'
 import { ColorField, Field, PanelSection, Slider, SwatchRow } from '../controls'
 
 export function LightColorSection({
@@ -9,10 +11,12 @@ export function LightColorSection({
   light: LightConfig
   onPatch: (patch: Partial<LightConfig>) => void
 }) {
+  const t = useT()
+  const language = useLanguage()
   return (
-    <PanelSection title="颜色 / 色温">
+    <PanelSection title={t('lightPanel.section.color')}>
       <SwatchRow
-        swatches={COLOR_PRESETS.map((color) => ({ label: color.label, color: color.color }))}
+        swatches={COLOR_PRESETS.map((color) => ({ label: getColorPresetLabel(language, color.name), color: color.color }))}
         activeColor={light.color}
         onPick={(swatch) => {
           const preset = COLOR_PRESETS.find((color) => color.color === swatch.color)
@@ -20,11 +24,15 @@ export function LightColorSection({
         }}
       />
       <ColorField
-        label="自定义颜色"
+        label={t('lightPanel.customColor')}
         value={light.color}
         onChange={(value) => onPatch({ color: value, colorTemperature: undefined })}
       />
-      <Field label={`色温（白光）${light.colorTemperature ? ` · ${light.colorTemperature}K` : ' · 关'}`}>
+      <Field
+        label={`${t('lightPanel.colorTemp')}${
+          light.colorTemperature ? ` · ${light.colorTemperature}K` : ` · ${t('lightPanel.colorTempOff')}`
+        }`}
+      >
         <SwatchRow
           swatches={COLOR_TEMPERATURE_PRESETS.map((color) => ({ label: color.label, color: color.color }))}
           onPick={(swatch) => {
@@ -35,7 +43,7 @@ export function LightColorSection({
       </Field>
       {light.colorTemperature != null && (
         <Slider
-          label="色温微调"
+          label={t('lightPanel.colorTempFine')}
           min={3000}
           max={6800}
           step={50}

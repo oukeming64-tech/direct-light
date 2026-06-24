@@ -1,16 +1,10 @@
 import { FIXTURE_PRESETS } from '../../data/fixturePresets'
-import { LIGHT_TYPE_LABELS } from '../../data/rendering'
 import { isCustomFixture } from '../../domain/customFixtures'
 import type { CustomFixturePreset, FixturePreset, LightConfig, LightType } from '../../types'
+import { useT, useLanguage } from '../../i18n/useT'
+import { getFixtureCapabilityLabel, getFixtureDisplayLabel, getLightTypeLabel } from '../../i18n/display'
 import { Field, PanelSection, Segmented, Toggle } from '../controls'
 import { LightFixtureActions } from './LightFixtureActions'
-
-function fixtureCapabilityLabel(fixture: FixturePreset) {
-  if (fixture.supportsColor) return '全彩'
-  if (fixture.colorEngine === 'bi-color') return '双色温'
-  if (fixture.colorEngine === 'tungsten') return '暖色'
-  return '白光'
-}
 
 export function LightBaseSection({
   light,
@@ -30,26 +24,28 @@ export function LightBaseSection({
   onToggle: () => void
 }) {
   const fixtureSelectValue = fixture ? light.fixturePresetId ?? '' : ''
+  const t = useT()
+  const language = useLanguage()
 
   return (
-    <PanelSection title="基础">
-      <Field label="器械">
+    <PanelSection title={t('lightPanel.section.base')}>
+      <Field label={t('lightPanel.fixture')}>
         <div className="flex items-center gap-2">
           <select
             value={fixtureSelectValue}
             onChange={(e) => onApplyFixture(e.target.value || undefined)}
             className="min-w-0 flex-1 rounded-lg bg-zinc-800/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:ring-1 focus:ring-violet-400"
           >
-            <option value="">自定义参数</option>
-            <optgroup label="内置器械">
+            <option value="">{t('lightPanel.customParams')}</option>
+            <optgroup label={t('lightPanel.builtinFixtures')}>
               {FIXTURE_PRESETS.map((preset) => (
                 <option key={preset.id} value={preset.id}>
-                  {preset.label}
+                  {getFixtureDisplayLabel(language, preset)}
                 </option>
               ))}
             </optgroup>
             {customFixtures.length > 0 && (
-              <optgroup label="我的器械">
+              <optgroup label={t('lightPanel.myFixtures')}>
                 {customFixtures.map((preset) => (
                   <option key={preset.id} value={preset.id}>
                     {preset.label}
@@ -60,19 +56,19 @@ export function LightBaseSection({
           </select>
           {fixture && (
             <span className="shrink-0 rounded-md bg-zinc-800/70 px-2 py-1 text-[11px] text-zinc-300 ring-1 ring-zinc-700">
-              {fixtureCapabilityLabel(fixture)}
+              {getFixtureCapabilityLabel(language, fixture)}
             </span>
           )}
           {fixture && isCustomFixture(fixture) && (
             <span className="shrink-0 rounded-md bg-violet-500/20 px-2 py-1 text-[11px] text-violet-200 ring-1 ring-violet-400/40">
-              自定义
+              {t('lightPanel.customBadge')}
             </span>
           )}
         </div>
       </Field>
-      <p className="text-[11px] text-zinc-500">选择灯具只设置默认光质，之后仍可手动微调。</p>
+      <p className="text-[11px] text-zinc-500">{t('lightPanel.fixtureHint')}</p>
       <LightFixtureActions lightId={light.id} selectedFixture={fixture} />
-      <Field label="灯名">
+      <Field label={t('lightPanel.name')}>
         <input
           value={light.name}
           onChange={(e) => onNameChange(e.target.value)}
@@ -80,16 +76,16 @@ export function LightBaseSection({
         />
       </Field>
       <Segmented
-        label="类型"
+        label={t('lightPanel.type')}
         value={light.type}
         onChange={onTypeChange}
         options={[
-          { value: 'hard', label: LIGHT_TYPE_LABELS.hard },
-          { value: 'soft', label: LIGHT_TYPE_LABELS.soft },
-          { value: 'panel', label: LIGHT_TYPE_LABELS.panel },
+          { value: 'hard', label: getLightTypeLabel(language, 'hard') },
+          { value: 'soft', label: getLightTypeLabel(language, 'soft') },
+          { value: 'panel', label: getLightTypeLabel(language, 'panel') },
         ]}
       />
-      <Toggle label="开关" checked={light.enabled} onChange={onToggle} />
+      <Toggle label={t('lightPanel.toggle')} checked={light.enabled} onChange={onToggle} />
     </PanelSection>
   )
 }

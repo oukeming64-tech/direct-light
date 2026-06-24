@@ -6,6 +6,8 @@ import { getLightBrief } from '../domain/lightBrief'
 // opening the right panel. (V0_6B_VISUAL_BRIEF_SPEC §4)
 export function DirectorLightBrief() {
   const viewMode = useStore((s) => s.viewMode)
+  const language = useStore((s) => s.language)
+  const customFixtures = useStore((s) => s.customFixtures)
   const light = useStore((s) => {
     const sel = s.selection
     return sel?.kind === 'light' ? s.scene.lights.find((l) => l.id === sel.id) : undefined
@@ -15,7 +17,7 @@ export function DirectorLightBrief() {
 
   return (
     <div className="pointer-events-none absolute bottom-3 left-3 max-w-[85%] truncate rounded-md bg-zinc-950/70 px-2.5 py-1 text-[11px] text-zinc-200 ring-1 ring-zinc-700/60">
-      {getLightBrief(light)}
+      {getLightBrief(light, language, customFixtures)}
     </div>
   )
 }

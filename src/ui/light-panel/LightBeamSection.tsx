@@ -1,4 +1,5 @@
 import type { LightConfig } from '../../types'
+import { useT } from '../../i18n/useT'
 import { PanelSection, Slider } from '../controls'
 
 export function LightBeamSection({
@@ -12,11 +13,14 @@ export function LightBeamSection({
   // the raw sliders below don't look "wrong" (e.g. slider 1.8 but image dimmer).
   effectiveSummary?: string
 }) {
+  const t = useT()
   return (
-    <PanelSection title="光束 / 柔硬">
-      {effectiveSummary && <p className="text-[11px] text-zinc-400">有效光质：{effectiveSummary}</p>}
+    <PanelSection title={t('lightPanel.section.beam')}>
+      {effectiveSummary && (
+        <p className="text-[11px] text-zinc-400">{t('lightPanel.effectiveQuality', { summary: effectiveSummary })}</p>
+      )}
       <Slider
-        label="光束角"
+        label={t('lightPanel.beamAngle')}
         min={10}
         max={80}
         step={1}
@@ -26,14 +30,18 @@ export function LightBeamSection({
         format={(value) => value.toFixed(0)}
       />
       <Slider
-        label="柔硬程度"
+        label={t('lightPanel.softness')}
         min={0}
         max={1}
         step={0.01}
         value={light.softness}
         onChange={(value) => onPatch({ softness: value })}
         format={(value) =>
-          value < 0.25 ? `硬 ${value.toFixed(2)}` : value > 0.7 ? `柔 ${value.toFixed(2)}` : value.toFixed(2)
+          value < 0.25
+            ? `${t('lightPanel.softnessHard')} ${value.toFixed(2)}`
+            : value > 0.7
+              ? `${t('lightPanel.softnessSoft')} ${value.toFixed(2)}`
+              : value.toFixed(2)
         }
       />
     </PanelSection>
