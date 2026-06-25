@@ -109,13 +109,14 @@ function StudioLight({ light, target, objects, selected, showGizmo, onSelect, on
     s.shadow.radius = getShadowRadius(effective.softness)
     s.shadow.blurSamples = Math.round(8 + effective.softness * 24)
     s.shadow.bias = getShadowBias(effective.softness)
+    s.shadow.normalBias = light.normalBias ?? 0
     s.shadow.camera.near = 0.4
     s.shadow.camera.far = Math.max(24, effective.distance + 14)
     s.shadow.camera.updateProjectionMatrix()
     // Force the shadow map to rebuild when the resolution changes.
     s.shadow.map?.dispose()
     s.shadow.map = null as unknown as THREE.WebGLRenderTarget
-  }, [light.enabled, effective.softness, effective.distance, typeDef.shadowMapSize])
+  }, [light.enabled, effective.softness, effective.distance, typeDef.shadowMapSize, light.normalBias])
 
   const pos: [number, number, number] = [light.position.x, light.position.y, light.position.z]
   const tgt: [number, number, number] = [target.x, target.y, target.z]

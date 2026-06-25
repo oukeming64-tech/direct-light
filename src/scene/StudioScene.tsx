@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useStore } from '../state/store'
-import type { SceneConfig, StudioConfig, ViewMode } from '../types'
+import type { SceneConfig, ShadowMode, StudioConfig, ViewMode } from '../types'
 import { RENDERER_SETTINGS } from '../data/rendering'
 import { getEffectiveLightTarget } from '../domain/lightTargets'
 import { clampCameraInsideStudio, getEffectiveCameraTarget } from '../domain/cameraMath'
@@ -16,6 +17,24 @@ import { OrthoRig, PerspectiveRig } from './CameraRig'
 import { GroundDragController } from './GroundDragController'
 import { CameraGizmo } from './CameraGizmo'
 import { DistanceLabel } from './DistanceLabel'
+
+// Applies the shadow map algorithm at runtime and flushes cached maps on change.
+// Must live inside <Canvas> so it can access the R3F renderer via useThree.
+function ShadowModeSync({ mode }: { mode: ShadowMode }) {
+  const { gl, scene } = useThree()
+  useEffect(() => {
+    gl.shadowMap.type = mode === 'soft' ? THREE.PCFSoftShadowMap : THREE.VSMShadowMap
+    scene.traverse((obj) => {
+      const light = obj as THREE.Light
+      if (light.isLight && light.shadow?.map) {
+        light.shadow.map.dispose()
+        ;(light.shadow as { map: THREE.WebGLRenderTarget | null }).map = null
+      }
+    })
+    gl.shadowMap.needsUpdate = true
+  }, [mode, gl, scene])
+  return null
+}
 
 type SceneContentsProps = {
   scene: SceneConfig
@@ -61,6 +80,7 @@ function SceneContents({ scene, view, interactive, registerCapture }: SceneConte
   return (
     <>
       <color attach="background" args={['#0b0c10']} />
+      <ShadowModeSync mode={scene.studio.shadowMode ?? 'variance'} />
 
       {view === 'camera' || view === 'free' ? (
         <PerspectiveRig
@@ -291,7 +311,7 @@ export function StudioScene({
 
   return (
     <Canvas
-      shadows="variance"
+      shadows={scene.studio.shadowMode === 'soft' ? 'soft' : 'variance'}
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true, antialias: true }}
       onCreated={({ gl }) => {

@@ -10,6 +10,8 @@ export type LightTargetMode = 'manual' | 'person' | 'peopleCenter'
 
 export type AspectRatio = '16:9' | '4:3' | '1:1' | '9:16'
 
+export type ShadowMode = 'variance' | 'soft'
+
 export type StudioConfig = {
   width: number
   depth: number
@@ -23,6 +25,9 @@ export type StudioConfig = {
   floorColor: string
   showSideWalls: boolean
   showCeiling: boolean
+  // Shadow map algorithm. 'variance' = VSM (smooth penumbra, may ring on curved
+  // geometry); 'soft' = PCFSoft (no ringing, slightly less smooth penumbra).
+  shadowMode?: ShadowMode
 }
 
 export type SceneObjectKind =
@@ -240,6 +245,9 @@ export type LightConfig = {
   // v0.6a: per-light control modifier. This changes effective light quality
   // through a pure helper, but does not overwrite the user's raw light sliders.
   modifierId?: string
+  // Shadow normal bias (0..0.05). Offsets the shadow lookup along the surface
+  // normal to reduce VSM light-bleeding on curved geometry (esp. sphere silhouettes).
+  normalBias?: number
 }
 
 // v0.4c: camera target can be manual, or follow a person / the people-center

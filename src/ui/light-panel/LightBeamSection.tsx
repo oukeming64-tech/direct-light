@@ -44,6 +44,15 @@ export function LightBeamSection({
               : value.toFixed(2)
         }
       />
+      <Slider
+        label={t('lightPanel.normalBias')}
+        min={0}
+        max={0.05}
+        step={0.001}
+        value={light.normalBias ?? 0}
+        onChange={(value) => onPatch({ normalBias: value })}
+        format={(value) => value.toFixed(3)}
+      />
     </PanelSection>
   )
 }

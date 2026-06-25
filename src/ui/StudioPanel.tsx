@@ -20,6 +20,13 @@ export function StudioPanel() {
         <Slider label={t('studioPanel.floorReflectance')} min={0} max={1} step={0.01} value={studio.floorReflectance} onChange={(v) => updateStudio({ floorReflectance: v })} />
         <Slider label={t('studioPanel.ambientLevel')} min={0} max={1} step={0.01} value={studio.ambientLevel} onChange={(v) => updateStudio({ ambientLevel: v })} />
       </PanelSection>
+      <PanelSection title={t('studioPanel.section.rendering')}>
+        <Toggle
+          label={t('studioPanel.softShadows')}
+          checked={(studio.shadowMode ?? 'variance') === 'soft'}
+          onChange={(v) => updateStudio({ shadowMode: v ? 'soft' : 'variance' })}
+        />
+      </PanelSection>
       <PanelSection title={t('studioPanel.section.structure')}>
         <Toggle label={t('studioPanel.cyclorama')} checked={studio.hasCyclorama} onChange={(v) => updateStudio({ hasCyclorama: v })} />
         <Toggle label={t('studioPanel.sideWalls')} checked={studio.showSideWalls} onChange={(v) => updateStudio({ showSideWalls: v })} />
