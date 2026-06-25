@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Direct Light",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "identifier": "com.oukeming64.directlight",
   "build": {
     "frontendDist": "../dist",

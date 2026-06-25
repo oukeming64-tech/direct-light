@@ -14,12 +14,12 @@ Do not load every historical `V0_*_SPEC.md` by default. Old details live in `doc
 
 ## Current Work
 
-- Released baseline: `v1.0.1` (drag-bounds patch over `v1.0.0`, the first stable major release — multilingual UI complete; user chose 1.0.0 over 0.10.0).
+- Released baseline: `v1.0.2` (user-customizable figure models, over the `v1.0.1` drag-bounds patch over `v1.0.0`, the first stable major release — multilingual UI complete; user chose 1.0.0 over 0.10.0).
 - v0.10 multilingual UI is complete locally and user-accepted on 2026-06-24.
 - i18n foundation, v0.10b tier-A UI extraction, and v0.10.1 built-in display labels + `sceneDiff` localized copy are complete.
 - Release operation is complete: `main` was pushed and `v1.0.0` was tagged/published.
 - `v1.0.1` (released, tagged): free-drag of light/camera/person/prop now clamps to the studio footprint via `src/domain/studioBounds.ts` (`clampToStudioFootprint`), used by `GroundDragController`.
-- **Unreleased on `main`** (merged, not tagged): user-customizable figure models. Contributor PR #1 (@zczam) + Claude follow-up `e16b3aa`. Drop a `.glb` into `src/models/` → auto-discovered via Vite glob in `src/data/personModels.ts`, rendered by `src/scene/PersonGLB.tsx` (bbox auto-scale + ground-lift, best-effort Mixamo bone mapping). `PersonConfig.modelVariant?: string` (`'dummy'` = procedural rig, default). Ships two figures (哲学家 / 哲学家 (胸像)); dummy stays default, GLBs lazy-load on selection (no eager preload). User-accepted 2026-06-25. Two `.glb` committed as regular files (not LFS), bundle into `dist`.
+- `v1.0.2` (released, tagged 2026-06-25): user-customizable figure models. Contributor PR #1 (@zczam) + Claude follow-up `e16b3aa`. Drop a `.glb` into `src/models/` → auto-discovered via Vite glob in `src/data/personModels.ts`, rendered by `src/scene/PersonGLB.tsx` (bbox auto-scale + ground-lift, best-effort Mixamo bone mapping). `PersonConfig.modelVariant?: string` (`'dummy'` = procedural rig, default). Ships two figures (哲学家 / 哲学家 (胸像)); dummy stays default, GLBs lazy-load on selection (no eager preload). Two `.glb` committed as regular files (not LFS), bundle into `dist`. Changelog headline: 在博士的建议下添加了更多哲学人物。
 - `LIGHT_TYPE_LABELS` and `LIGHT_TARGET_MODE_LABELS` are unused but intentionally retained until a later Codex-approved cleanup.
 
 ## Hard Boundaries

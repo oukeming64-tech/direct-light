@@ -19,10 +19,10 @@
 
 ## 版本
 
-**当前版本：`v1.0.1` —— 首个正式版 `v1.0.0`（2026-06-24）之上的拖动边界修复。** 白棚灯光预演的核心功能已全部就绪，并完整支持简体中文 / English / 日本語 运行时切换。
+**当前版本：`v1.0.2` —— 在首个正式版 `v1.0.0`（2026-06-24）之上新增用户自定义人像模型（含两个新人像）。** 白棚灯光预演的核心功能已全部就绪，并完整支持简体中文 / English / 日本語 运行时切换。
 
 - 🌐 **在线版**：<https://oukeming64-tech.github.io/direct-light/> —— 免安装，随 `main` 自动更新。
-- 🖥️ **macOS 桌面版**：[v1.0.1 Release](https://github.com/oukeming64-tech/direct-light/releases/latest) 的 `.dmg`（Apple Silicon / Intel 通用，未签名，首次打开见下方说明）。
+- 🖥️ **macOS 桌面版**：[v1.0.2 Release](https://github.com/oukeming64-tech/direct-light/releases/latest) 的 `.dmg`（Apple Silicon / Intel 通用，未签名，首次打开见下方说明）。
 - 📜 完整逐版更新见 [`CHANGELOG.md`](CHANGELOG.md)。
 
 从一个简单原型起步，经过 v0.2–v0.10 十余个迭代（多人物、结构道具、人物姿态、灯具预设、控光附件与棚内器材、摄影机控制、更多光源、自定义灯具导入导出、多语言 UI），现作为首个正式版发布。

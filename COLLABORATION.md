@@ -14,7 +14,7 @@ Date: 2026-06-24
 
 Released baseline:
 
-- Latest public release: `v1.0.1` (drag-bounds fix on top of the `v1.0.0` multilingual major release).
+- Latest public release: `v1.0.2` (user-customizable figure models, on top of the `v1.0.1` drag-bounds patch over the `v1.0.0` multilingual major release).
 - GitHub: https://github.com/oukeming64-tech/direct-light
 - GitHub Pages demo: https://oukeming64-tech.github.io/direct-light/
 - macOS desktop release is published through Tauri CI.
@@ -23,7 +23,7 @@ Released baseline:
 Current feature line:
 
 - v0.10 multilingual UI is complete and user-accepted (2026-06-24), released as **`v1.0.0`** — the user chose 1.0.0 (not 0.10.0) because this is a major update milestone.
-- All app version metadata is `v1.0.1` / `1.0.1` (TopBar / `package.json` / `tauri.conf.json` / `Cargo.toml` / `Cargo.lock`); `v1.0.1` is a drag-bounds patch over `v1.0.0`.
+- All app version metadata is `v1.0.2` / `1.0.2` (TopBar / `package.json` / `tauri.conf.json` / `Cargo.toml` / `Cargo.lock`); `v1.0.2` adds user-customizable figure models over the `v1.0.1` drag-bounds patch.
 - i18n foundation, v0.10b tier-A core UI extraction, and v0.10.1 built-in display labels + `sceneDiff` localized copy are complete.
 - Released: committed + pushed to `main`, tagged `v1.0.0` (web GitHub Pages + Tauri macOS CI).
 
@@ -31,11 +31,12 @@ v1.0.1 — drag-bounds patch (released, tagged `v1.0.1`):
 
 - Free-drag bounds: dragging a light / camera / person / prop on the ground now clamps to the live studio footprint (`width` × `depth`, all four sides incl. the open +Z front, 0.3m margin) instead of a hardcoded ±20m. Pure helper `clampToStudioFootprint` in `src/domain/studioBounds.ts`; `GroundDragController` reads the current `studio` from the store. The camera path still also passes through `clampCameraInsideStudio`.
 
-Unreleased on `main` — user-customizable figure models (PR #1 + Claude follow-up `e16b3aa`; merged, NOT yet tagged):
+v1.0.2 — user-customizable figure models (PR #1 + Claude follow-up `e16b3aa`; released, tagged `v1.0.2`):
 
 - New feature from contributor [@zczam](https://github.com/zczam) (PR #1): drop a `.glb` into `src/models/` and it auto-appears in the person panel's "User Models" list. Build-time discovery via `import.meta.glob('/src/models/*.glb', { query: '?url', eager: true })` in `src/data/personModels.ts`; runtime bounding-box auto-scale + ground-lift in `src/scene/PersonGLB.tsx`; best-effort Mixamo bone → `PoseConfig` mapping that no-ops on rigless meshes. `PersonConfig.modelVariant?: string` added (`'dummy'` = procedural rig, any other = id in `PERSON_MODELS`). Ships two figures (哲学家 / 哲学家 (胸像)).
 - Claude follow-up `e16b3aa`: default `modelVariant` is `'dummy'` (the procedural rig) everywhere — `Person` dispatch, `buildPersonFromPreset`, `PersonPanel` — so the bundled models are opt-in, not forced. Fixed the `LABEL_OVERRIDES` key that never matched the real bust file id. Dropped the eager `useGLTF.preload`: GLBs now lazy-load on first selection (Suspense falls back to the dummy), so startup no longer fetches multi-MB models nobody asked for. User-accepted 2026-06-25; lint + `tsc -b` + build clean.
-- Note: the two `.glb` files are committed as regular files (not LFS) and bundle into `dist` (van 1.3MB / bust 6.2MB). Kept simple per user; LFS would shrink the repo but not the bundle, and the contributor already reverted an LFS attempt. No app version bump / tag yet.
+- Note: the two `.glb` files are committed as regular files (not LFS) and bundle into `dist` (van 1.3MB / bust 6.2MB). Kept simple per user; LFS would shrink the repo but not the bundle, and the contributor already reverted an LFS attempt.
+- Released as `v1.0.2` (2026-06-25): all app version metadata bumped to `1.0.2` (TopBar / `package.json` / `tauri.conf.json` / `Cargo.toml` / `Cargo.lock`), tagged `v1.0.2` (web Pages + Tauri macOS CI). Changelog headline: 在博士的建议下添加了更多哲学人物。
 
 ## v0.10 Status
 
