@@ -117,4 +117,4 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) (Chinese) for full module boundaries, a
 
 ## Acknowledgements
 
-Special thanks to Zhang, the DR from Stanford ([@zczam](https://github.com/zczam)), for the user-customizable figure models — bringing a little philosophy and dungeon flavor to the otherwise boring white studio.
+Special thanks to Dr. Zhang from Stanford ([@zczam](https://github.com/zczam)) for the user-customizable figure models — bringing a little philosophy and dungeon flavor to the otherwise boring white studio.

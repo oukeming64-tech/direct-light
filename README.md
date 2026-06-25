@@ -117,7 +117,7 @@ Vite · React 19 · TypeScript · React Three Fiber + drei（Three.js）· Zusta
 - 贡献指南：[`CONTRIBUTING.md`](CONTRIBUTING.md)
 - 更新记录：[`CHANGELOG.md`](CHANGELOG.md)
 - 后续路线：[`ROADMAP.md`](ROADMAP.md)
-- 致谢：特别感谢斯坦福的 DR、Zhang（[@zczam](https://github.com/zczam)）贡献用户自定义人像模型，让无聊的白棚多了一些哲学和地牢的气息。
+- 致谢：特别感谢斯坦福的 Dr. Zhang（[@zczam](https://github.com/zczam)）贡献用户自定义人像模型，让无聊的白棚多了一些哲学和地牢的气息。
 
 ## 文档索引
 
