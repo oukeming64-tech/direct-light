@@ -25,6 +25,10 @@ A/B 对比已经在 v0.1.2 完成，后续需求默认都要能被 A/B 对比验
 9. ~~v0.10 多语言 UI。~~ ✅ 已完成、通过用户真机视觉验收 + Codex copy 复核，并作为**首个正式大版本 `v1.0.0`** 发布（2026-06-24，网页 + macOS 桌面；见 `V0_10_I18N_SPEC.md` / `V0_10_1_DISPLAY_COPY_SPEC.md`）。
 10. 更真实的品牌参数和光度数据。
 
+社区贡献（路线图外）：
+
+- ~~用户自定义人像模型（导入 `.glb`）。~~ ✅ 已合并进 `main`（贡献者 PR #1 [@zczam](https://github.com/zczam) + Claude 收口 commit `e16b3aa`），用户验收通过 2026-06-25；尚未单独打 tag。详见 `CHANGELOG.md` 的 Unreleased 段与 `COLLABORATION.md`。
+
 原因：
 
 - 导演首先需要看人和影子在哪里。

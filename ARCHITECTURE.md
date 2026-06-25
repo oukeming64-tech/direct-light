@@ -23,10 +23,12 @@
 - `src/data/defaults.ts` 已负责生成默认场景。
 - `src/data/poses.ts` 已负责人物姿态预设。
 - `src/data/sceneObjects.ts` 已负责白棚结构、道具和承载物预设。
+- `src/data/personModels.ts` 已负责用户自定义人像模型注册表：构建期 `import.meta.glob('/src/models/*.glb', { query: '?url', eager: true })` 自动发现，`LABEL_OVERRIDES` 仅覆盖显示标签（不改 id）。
 - `src/state/store.ts` 已是状态薄入口；具体动作在 `src/state/actions/*`。
 - `src/ui/LightPanel.tsx` 已是兼容导出壳；灯光面板实现拆到 `src/ui/light-panel/*`。
 - `src/ui/ObjectList.tsx` 已是兼容导出壳；左侧对象列表实现拆到 `src/ui/object-list/*`。
-- `src/scene/Person.tsx` 与 `src/scene/Studio.tsx` 已开始承载 3D 物体。
+- `src/scene/Person.tsx` 与 `src/scene/Studio.tsx` 已开始承载 3D 物体；`Person` 按 `person.modelVariant` 分发，默认走程序化假人 `PersonDummy`，非 `'dummy'` 时走 `PersonGLB`（以假人为 Suspense fallback）。
+- `src/scene/PersonGLB.tsx` 已承载用户自定义 `.glb` 人像渲染：按包围盒自动缩放 + 落地偏移、尽力而为的 Mixamo 骨骼 → `PoseConfig` 映射（rigless 网格自动跳过）；无 eager preload，选中才懒加载。
 - `src/scene/LightRig.tsx` 已开始承载灯光渲染、灯具标记和灯光方向线。
 - `src/scene/LightVisual.tsx` 已承载 v0.5.1 的柔光/面光/RGB 灯管可见灯体。
 - `src/scene/studioGeometry.ts` 已承载 v0.5.1 的一体 cyclorama geometry helper。

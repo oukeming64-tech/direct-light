@@ -36,6 +36,7 @@ Starting from a simple prototype, Direct Light grew through ~ten iterations (v0.
 ## Features
 
 - 🎬 **Studio + people** — adjustable white studio (size, wall/ceiling toggles, seamless cyclorama, wall/floor reflectance), a rigged simplified figure, multi-actor blocking (up to 5), pose presets and joint tuning.
+- 🧍 **User-customizable figure models** — drop a `.glb` into `src/models/` and it auto-appears in the person panel's "Appearance → User Models" list, auto-scaled and grounded at runtime with no per-model config; ships with two new figures (Philosopher / Philosopher bust). The procedural dummy stays the default; custom models are opt-in.
 - 💡 **Lighting** — up to 6 lights (hard / soft / panel) with position, height, distance, angle, intensity, color, color temperature, beam angle, and softness; drag-to-place; target lock (manual / lock-to-person / center-of-people).
 - 🔦 **Fixture library** — 8 semantic fixture presets (COB, Nanlux Evoke 600C, LED panel, RGB tube, Fresnel, etc.); apply default light quality in one click, then fine-tune by hand.
 - 🎛️ **Modifiers + standalone control gear** — softbox / grid / reflector / diffusion on the light, plus black flag / reflector board / diffusion frame as in-studio gear, each with a director-readable approximate optic.
@@ -113,3 +114,7 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) (Chinese) for full module boundaries, a
 ## License
 
 [MIT](LICENSE) © 2026 Keming Ou. Changelog: [`CHANGELOG.md`](CHANGELOG.md). Roadmap: [`ROADMAP.md`](ROADMAP.md) (Chinese).
+
+## Acknowledgements
+
+Special thanks to Zhang, the DR from Stanford ([@zczam](https://github.com/zczam)), for the user-customizable figure models — bringing a little philosophy and dungeon flavor to the otherwise boring white studio.
