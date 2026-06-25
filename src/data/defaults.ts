@@ -12,6 +12,7 @@ import {
   PERSON_STAGING_PRESETS,
 } from './rendering'
 import { DEFAULT_POSE } from './poses'
+import { PERSON_MODELS } from './personModels'
 
 export function buildDefaultStudio(): StudioConfig {
   return {
@@ -41,6 +42,7 @@ export function buildPersonFromPreset(index: number, id: string = DEFAULT_PERSON
     clothingColor: preset.clothingColor,
     showFacePlane: true,
     pose: { ...DEFAULT_POSE },
+    modelVariant: PERSON_MODELS[0]?.id ?? 'dummy',
   }
 }
 
