@@ -5,7 +5,6 @@ import type { PersonConfig } from '../types'
 import { PERSON_MATERIAL } from '../data/rendering'
 import { DEFAULT_POSE } from '../data/poses'
 import { PersonGLB } from './PersonGLB'
-import { PERSON_MODELS } from '../data/personModels'
 
 type Props = {
   person: PersonConfig
@@ -193,9 +192,9 @@ export function PersonDummy({ person, selected, onSelect, onPointerDown }: Props
 }
 
 // Dispatches to the GLB model or the procedural dummy based on person.modelVariant.
-// Defaults to the GLB. The dummy is the Suspense fallback while the GLB loads.
+// Defaults to the dummy. The dummy is also the Suspense fallback while a GLB loads.
 export function Person(props: Props) {
-  const variant = props.person.modelVariant ?? PERSON_MODELS[0]?.id ?? 'dummy'
+  const variant = props.person.modelVariant ?? 'dummy'
   if (variant === 'dummy') return <PersonDummy {...props} />
   return (
     <Suspense fallback={<PersonDummy {...props} />}>

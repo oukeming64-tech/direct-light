@@ -11,8 +11,8 @@ export type PersonModelDef = {
 }
 
 const LABEL_OVERRIDES: Record<string, string> = {
-  van_darkholme:  'Van♂Darkholme',
-  van_darkholme2: 'Van♂Darkholme 2',
+  van_darkholme: '哲学家',
+  '3d_bust_van_darkholmdungeon_master': '哲学家 (胸像)',
 }
 
 function humanize(slug: string): string {

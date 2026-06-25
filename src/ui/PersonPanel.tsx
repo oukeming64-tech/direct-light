@@ -66,7 +66,7 @@ export function PersonPanel({ id }: { id: string }) {
     }
   }
 
-  const activeVariant = person.modelVariant ?? PERSON_MODELS[0]?.id ?? 'dummy'
+  const activeVariant = person.modelVariant ?? 'dummy'
   const poseDisabled = activeVariant !== 'dummy'
   const modelOptions = [
     { id: 'dummy', label: t('personPanel.modelVariant.dummy') },

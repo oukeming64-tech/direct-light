@@ -87,5 +87,7 @@ export function PersonGLB({ person, selected, onSelect, onPointerDown }: Props) 
   )
 }
 
-PERSON_MODELS.forEach(m => useGLTF.preload(m.path))
+// No eager preload: the dummy is the default, so GLBs load lazily on first
+// selection (Suspense shows the dummy as fallback meanwhile). This keeps startup
+// from fetching multi-MB models nobody asked for.
 
