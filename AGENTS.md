@@ -10,7 +10,7 @@ Keep startup context small:
 2. `ARCHITECTURE.md` — module boundaries when changing code.
 3. The directly relevant spec for the files you will touch.
 
-Do not load every historical `V0_*_SPEC.md` by default. Old details live in `docs/history/COLLABORATION_HISTORY_2026-06-23.md` and should be opened only when needed.
+Do not load every historical `V0_*_SPEC.md` by default. Completed specs live in `docs/history/specs/`; old narrative details live in `docs/history/COLLABORATION_HISTORY_2026-06-23.md`.
 
 ## Current Work
 

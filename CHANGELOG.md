@@ -9,6 +9,7 @@
 - 新增 GitHub Pages 项目展示页：`/showcase/`。它作为给 GitHub 访客看的 Apple MacBook Neo reference-inspired 项目主页，使用现有 demo 视频和截图介绍 Direct Light；线上 demo 根路径仍保持为可直接使用的应用本体。
 - Vite 生产构建现在会同时产出应用根页和展示页；Tauri 构建仍只打包应用根页，避免桌面包额外带展示页素材。
 - 文档流程：每次仓库修改都必须同步相关文档，并明确记录「改了什么」和「没改什么」。本次只更新协作/记录文档，不改变产品功能、主程序代码、展示页代码、构建配置或发布版本。
+- 文档整理：旧阶段规格归档到 `docs/history/specs/`，长版根文档快照归档到 `docs/history/snapshots/`，根目录 README / ROADMAP / ARCHITECTURE / RENDERING_SPEC 改成短版入口；未改变主程序代码、展示页代码、构建配置、版本号、发布流程或产品行为。
 
 ## [1.0.3] - 2026-06-25 · 修复：阴影漏光（法线偏移 + PCF 柔和阴影）
 
@@ -38,7 +39,7 @@
 
 ## [1.0.0] - 2026-06-24 · 多语言 UI · 首个正式大版本
 
-- 新增 [`V0_10_I18N_SPEC.md`](V0_10_I18N_SPEC.md)，定稿多语言口径：语言是 app preference，不进入场景、保存方案、A/B 或自定义器械数据。
+- 新增 [`V0_10_I18N_SPEC.md`](docs/history/specs/V0_10_I18N_SPEC.md)，定稿多语言口径：语言是 app preference，不进入场景、保存方案、A/B 或自定义器械数据。
 - 首批语言定为简体中文 / 英语 / 日语；默认仍是简体中文。
 - 约定实现方式：轻量 typed in-repo i18n，不先引入重型依赖；v0.10a-d 拆分为基础设施、核心 UI 抽取、内置显示标签/copy pass、验收收口。
 - **i18n 基础设施已落地并通过用户验收**：新增 `src/i18n/*`（`languages`/`t()`/`useT` + 按域拆分的 `messages/`），store 顶层 `language` + `setLanguage`，独立持久化 key `direct-light.language.v1`，顶栏语言菜单（中/英/日）。
@@ -48,7 +49,7 @@
 
 ## [0.9.0] - 2026-06-23 · 自定义灯具导入 / 导出
 
-> 通过用户视觉验收并已发布；TopBar / `package.json` / Tauri / Cargo 均为 `0.9.0`。详见 [`V0_9_CUSTOM_FIXTURE_SPEC.md`](V0_9_CUSTOM_FIXTURE_SPEC.md)。
+> 通过用户视觉验收并已发布；TopBar / `package.json` / Tauri / Cargo 均为 `0.9.0`。详见 [`V0_9_CUSTOM_FIXTURE_SPEC.md`](docs/history/specs/V0_9_CUSTOM_FIXTURE_SPEC.md)。
 
 - 自定义灯具器械：与内置器械同形，可进同一「器械」下拉、走同一套 `applyFixturePreset`。
 - 把当前调好的灯一键存成自定义器械；自定义器械本地保存（localStorage）。

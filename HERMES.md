@@ -17,7 +17,7 @@ For any assigned Hermes task, read:
 3. `HERMES_LESSONS.md` — concrete prior misses Hermes must avoid.
 4. The exact spec and source files named in the handoff.
 
-Do not load every historical spec by default. Completed feature specs are reference material only.
+Do not load every historical spec by default. Completed feature specs live in `docs/history/specs/` and are reference material only.
 
 ## Role Boundary
 
