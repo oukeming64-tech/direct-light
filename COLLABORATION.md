@@ -27,6 +27,11 @@ Released baseline: `v1.0.3`.
 - Changed: every repository modification must update relevant docs and explicitly record what changed and what did not change.
 - Not changed: product/runtime behavior, main app code under `src/`, showcase code, build config, package metadata, release version, tags, deployment workflows, or public URLs.
 
+2026-06-29 (README front page restored):
+
+- Changed: rebuilt root `README.md` (73 → 118 lines) back into the public showcase front page — hero GIF, screenshots table, emoji feature list, tech stack, project-structure table, known-limits/tradeoffs, and the Dr. Zhang acknowledgement. The full PRD stays archived; `README.md` links to it instead of inlining it.
+- Not changed: `ROADMAP.md`, `ARCHITECTURE.md`, `RENDERING_SPEC.md` (still short current-entry docs), the archived snapshots under `docs/history/snapshots/`, showcase code, app code, and all release/deploy state.
+
 ## Released Lines
 
 - `v1.0.0`: first stable major release; multilingual UI complete for Simplified Chinese, English, and Japanese.
