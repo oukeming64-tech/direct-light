@@ -1,8 +1,8 @@
-import heroVideoUrl from '../../docs/media/hero.mp4'
-import heroPosterUrl from '../../docs/media/shot-lens.png'
-import shadowShotUrl from '../../docs/media/shot-shadow.png'
-import colorShotUrl from '../../docs/media/shot-color.png'
-import lensShotUrl from '../../docs/media/shot-lens.png'
+import heroVideoUrl from '../docs/media/hero.mp4'
+import heroPosterUrl from '../docs/media/shot-lens.png'
+import shadowShotUrl from '../docs/media/shot-shadow.png'
+import colorShotUrl from '../docs/media/shot-color.png'
+import lensShotUrl from '../docs/media/shot-lens.png'
 
 const demoHref = import.meta.env.BASE_URL
 const githubHref = 'https://github.com/oukeming64-tech/direct-light'

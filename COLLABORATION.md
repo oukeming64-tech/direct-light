@@ -18,6 +18,7 @@ Released baseline:
 - GitHub: https://github.com/oukeming64-tech/direct-light
 - GitHub Pages demo: https://oukeming64-tech.github.io/direct-light/
 - GitHub Pages showcase: https://oukeming64-tech.github.io/direct-light/showcase/ (Apple MacBook Neo reference-inspired project page; root path remains the live app).
+- Showcase implementation is isolated under `showcase/`; do not modify main app code under `src/` for project-page-only changes.
 - macOS desktop release is published through Tauri CI.
 - `src-tauri/Cargo.lock` is committed. Do not re-add inline `time` pins or `cargo generate-lockfile` steps to `release.yml`; refresh the lock with `.github/workflows/lockfile.yml` when needed.
 
