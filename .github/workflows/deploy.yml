@@ -1,6 +1,7 @@
 name: Deploy to GitHub Pages
 
-# Auto-deploy the live demo on every push to main, plus a manual trigger.
+# Auto-deploy the GitHub Pages site (live app root + showcase) on every push to
+# main, plus a manual trigger.
 on:
   push:
     branches: [main]

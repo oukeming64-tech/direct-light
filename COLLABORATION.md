@@ -17,7 +17,7 @@ Released baseline:
 - Latest public release: `v1.0.3` (shadow light-bleeding fix: per-light normal bias + PCF soft-shadow toggle, on top of the `v1.0.2` figure-models release).
 - GitHub: https://github.com/oukeming64-tech/direct-light
 - GitHub Pages demo: https://oukeming64-tech.github.io/direct-light/
-- GitHub Pages showcase: https://oukeming64-tech.github.io/direct-light/showcase/ (project page; root path remains the live app).
+- GitHub Pages showcase: https://oukeming64-tech.github.io/direct-light/showcase/ (Apple-inspired project page; root path remains the live app).
 - macOS desktop release is published through Tauri CI.
 - `src-tauri/Cargo.lock` is committed. Do not re-add inline `time` pins or `cargo generate-lockfile` steps to `release.yml`; refresh the lock with `.github/workflows/lockfile.yml` when needed.
 

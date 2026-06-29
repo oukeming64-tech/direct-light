@@ -24,7 +24,7 @@
 **当前版本：`v1.0.3` —— 在 `v1.0.2`（用户自定义人像模型）之上修复阴影漏光：每盏灯新增「法线偏移」滑杆，并提供「柔和阴影（PCF）」开关。** 白棚灯光预演的核心功能已全部就绪，并完整支持简体中文 / English / 日本語 运行时切换。
 
 - 🌐 **在线版**：<https://oukeming64-tech.github.io/direct-light/> —— 免安装，随 `main` 自动更新。
-- 🧭 **项目展示页**：<https://oukeming64-tech.github.io/direct-light/showcase/> —— 给 GitHub 访客看的项目主页，在线 demo 仍保留在根路径。
+- 🧭 **项目展示页**：<https://oukeming64-tech.github.io/direct-light/showcase/> —— 给 GitHub 访客看的 Apple-inspired 项目主页，在线 demo 仍保留在根路径。
 - 🖥️ **macOS 桌面版**：[v1.0.3 Release](https://github.com/oukeming64-tech/direct-light/releases/latest) 的 `.dmg`（Apple Silicon / Intel 通用，未签名，首次打开见下方说明）。
 - 📜 完整逐版更新见 [`CHANGELOG.md`](CHANGELOG.md)。
 
