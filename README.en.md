@@ -1,6 +1,7 @@
 # Direct Light · White-Studio Lighting Previz
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Project page](https://img.shields.io/badge/project%20page-showcase-111111.svg)](https://oukeming64-tech.github.io/direct-light/showcase/)
 [![Live demo](https://img.shields.io/badge/live%20demo-online-brightgreen.svg)](https://oukeming64-tech.github.io/direct-light/)
 [![Latest release](https://img.shields.io/github/v/release/oukeming64-tech/direct-light)](https://github.com/oukeming64-tech/direct-light/releases)
 [![Desktop: Tauri 2](https://img.shields.io/badge/desktop-Tauri%202-24c8db.svg)](https://tauri.app/)
@@ -9,7 +10,8 @@
 >
 > 中文文档（主文档）: [`README.md`](README.md)
 
-**🔗 Live demo: https://oukeming64-tech.github.io/direct-light/** — no install, works on mobile too, auto-updated on every push to `main`.
+**🔗 Project page: https://oukeming64-tech.github.io/direct-light/showcase/**  
+**Live demo: https://oukeming64-tech.github.io/direct-light/** — no install, works on mobile too, auto-updated on every push to `main`.
 
 A frontend-only web app, no backend. It optimizes for **communication, real-time feedback, and readability** — not physically accurate rendering. Unlike heavyweight DCC suites or paid set-lighting software, it's instant, install-free, and built for talking through a lighting setup with your crew.
 
@@ -22,6 +24,7 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 **Current version: `v1.0.3` — fixes shadow light-bleeding on top of `v1.0.2` (user-customizable figure models): a per-light "normal bias" slider plus a "soft shadows (PCF)" toggle.** The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
 
 - 🌐 **Web**: <https://oukeming64-tech.github.io/direct-light/> — no install, auto-updated on every push to `main`.
+- 🧭 **Project page**: <https://oukeming64-tech.github.io/direct-light/showcase/> — a polished GitHub Pages entry point; the live app stays at the root URL.
 - 🖥️ **macOS desktop**: the `.dmg` on the [v1.0.3 release](https://github.com/oukeming64-tech/direct-light/releases/latest) (universal Apple Silicon / Intel, unsigned — see the desktop section for first-launch steps).
 - 📜 Full per-version history in [`CHANGELOG.md`](CHANGELOG.md).
 

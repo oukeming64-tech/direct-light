@@ -1,6 +1,7 @@
 # Direct Light · 白棚灯光预演
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Project page](https://img.shields.io/badge/project%20page-showcase-111111.svg)](https://oukeming64-tech.github.io/direct-light/showcase/)
 [![Live demo](https://img.shields.io/badge/live%20demo-online-brightgreen.svg)](https://oukeming64-tech.github.io/direct-light/)
 [![Latest release](https://img.shields.io/github/v/release/oukeming64-tech/direct-light)](https://github.com/oukeming64-tech/direct-light/releases)
 [![Desktop: Tauri 2](https://img.shields.io/badge/desktop-Tauri%202-24c8db.svg)](https://tauri.app/)
@@ -9,7 +10,8 @@
 >
 > A white-studio lighting previz sandbox for directors, DPs, and gaffers. 👉 English readme: [`README.en.md`](README.en.md)
 
-**🔗 在线 demo：https://oukeming64-tech.github.io/direct-light/** —— 免安装、手机也能开，随 `main` 分支自动更新。
+**🔗 项目展示页：https://oukeming64-tech.github.io/direct-light/showcase/**  
+**在线 demo：https://oukeming64-tech.github.io/direct-light/** —— 免安装、手机也能开，随 `main` 分支自动更新。
 
 纯前端 Web 应用，无后端依赖。强调**沟通向、实时、可读**，而不是物理级精确渲染。区别于重型 3D / 付费布光软件，它即开即用、免安装，专为前期和团队沟通灯光方案而做。
 
@@ -22,6 +24,7 @@
 **当前版本：`v1.0.3` —— 在 `v1.0.2`（用户自定义人像模型）之上修复阴影漏光：每盏灯新增「法线偏移」滑杆，并提供「柔和阴影（PCF）」开关。** 白棚灯光预演的核心功能已全部就绪，并完整支持简体中文 / English / 日本語 运行时切换。
 
 - 🌐 **在线版**：<https://oukeming64-tech.github.io/direct-light/> —— 免安装，随 `main` 自动更新。
+- 🧭 **项目展示页**：<https://oukeming64-tech.github.io/direct-light/showcase/> —— 给 GitHub 访客看的项目主页，在线 demo 仍保留在根路径。
 - 🖥️ **macOS 桌面版**：[v1.0.3 Release](https://github.com/oukeming64-tech/direct-light/releases/latest) 的 `.dmg`（Apple Silicon / Intel 通用，未签名，首次打开见下方说明）。
 - 📜 完整逐版更新见 [`CHANGELOG.md`](CHANGELOG.md)。
 
