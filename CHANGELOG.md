@@ -6,7 +6,7 @@
 
 ## [Unreleased]
 
-- 新增 GitHub Pages 项目展示页：`/showcase/`。它作为给 GitHub 访客看的 Apple-inspired 项目主页，使用现有 demo 视频和截图介绍 Direct Light；线上 demo 根路径仍保持为可直接使用的应用本体。
+- 新增 GitHub Pages 项目展示页：`/showcase/`。它作为给 GitHub 访客看的 Apple MacBook Neo reference-inspired 项目主页，使用现有 demo 视频和截图介绍 Direct Light；线上 demo 根路径仍保持为可直接使用的应用本体。
 - Vite 生产构建现在会同时产出应用根页和展示页；Tauri 构建仍只打包应用根页，避免桌面包额外带展示页素材。
 
 ## [1.0.3] - 2026-06-25 · 修复：阴影漏光（法线偏移 + PCF 柔和阴影）

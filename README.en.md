@@ -24,7 +24,7 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 **Current version: `v1.0.3` — fixes shadow light-bleeding on top of `v1.0.2` (user-customizable figure models): a per-light "normal bias" slider plus a "soft shadows (PCF)" toggle.** The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
 
 - 🌐 **Web**: <https://oukeming64-tech.github.io/direct-light/> — no install, auto-updated on every push to `main`.
-- 🧭 **Project page**: <https://oukeming64-tech.github.io/direct-light/showcase/> — an Apple-inspired GitHub Pages entry point; the live app stays at the root URL.
+- 🧭 **Project page**: <https://oukeming64-tech.github.io/direct-light/showcase/> — rebuilt around the Apple MacBook Neo product-page rhythm; the live app stays at the root URL.
 - 🖥️ **macOS desktop**: the `.dmg` on the [v1.0.3 release](https://github.com/oukeming64-tech/direct-light/releases/latest) (universal Apple Silicon / Intel, unsigned — see the desktop section for first-launch steps).
 - 📜 Full per-version history in [`CHANGELOG.md`](CHANGELOG.md).
 
