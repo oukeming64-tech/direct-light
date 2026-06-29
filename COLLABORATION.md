@@ -27,10 +27,12 @@ Released baseline: `v1.0.3`.
 - Changed: every repository modification must update relevant docs and explicitly record what changed and what did not change.
 - Not changed: product/runtime behavior, main app code under `src/`, showcase code, build config, package metadata, release version, tags, deployment workflows, or public URLs.
 
-2026-06-29 (README front page restored):
+2026-06-29 (README front pages restored + synced):
 
 - Changed: rebuilt root `README.md` (73 → 118 lines) back into the public showcase front page — hero GIF, screenshots table, emoji feature list, tech stack, project-structure table, known-limits/tradeoffs, and the Dr. Zhang acknowledgement. The full PRD stays archived; `README.md` links to it instead of inlining it.
+- Changed: rewrote `README.en.md` as a faithful English mirror of the new `README.md` (also 118 lines, identical section structure); added the Documentation-map / history-archive block (incl. the PRD link) that English readers previously lacked, and dropped the standalone Desktop section in favor of the compact `build:tauri` + unsigned-first-launch note, matching the Chinese front page.
 - Not changed: `ROADMAP.md`, `ARCHITECTURE.md`, `RENDERING_SPEC.md` (still short current-entry docs), the archived snapshots under `docs/history/snapshots/`, showcase code, app code, and all release/deploy state.
+- Note (pre-existing follow-up): `CONTRIBUTING.md` still points desktop-build detail at the README "桌面版（macOS）" section, which both front pages now fold into a one-liner; the full steps live in the archived `README_FULL` snapshot. Repoint when convenient.
 
 ## Released Lines
 
