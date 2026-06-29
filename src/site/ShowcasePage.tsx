@@ -6,9 +6,17 @@ import lensShotUrl from '../../docs/media/shot-lens.png'
 
 const demoHref = import.meta.env.BASE_URL
 const githubHref = 'https://github.com/oukeming64-tech/direct-light'
+const supportHref = 'https://github.com/oukeming64-tech/direct-light/issues'
 const releaseHref = 'https://github.com/oukeming64-tech/direct-light/releases/latest'
 
-const globalNavItems = ['白棚', '灯光', '镜头', '对比', '下载', '支持']
+const globalNavItems = [
+  ['白棚', '#overview'],
+  ['灯光', '#highlights'],
+  ['镜头', '#lens'],
+  ['对比', '#workflow'],
+  ['下载', releaseHref],
+  ['支持', supportHref],
+]
 
 const highlightTabs = [
   '布光预演',
@@ -55,9 +63,9 @@ export function ShowcasePage() {
           <span className="brand-flash" />
         </a>
         <nav className="global-links" aria-label="Direct Light sections">
-          {globalNavItems.map((item) => (
-            <a href={item === '下载' ? releaseHref : '#highlights'} key={item}>
-              {item}
+          {globalNavItems.map(([label, href]) => (
+            <a href={href} key={label}>
+              {label}
             </a>
           ))}
         </nav>
@@ -87,7 +95,7 @@ export function ShowcasePage() {
 
       <section className="hero-section" id="overview" aria-labelledby="hero-title">
         <p className="hero-product">Direct Light</p>
-        <h1 id="hero-title">你好，光。</h1>
+        <h1 id="hero-title">先把光摆出来。</h1>
         <a className="hero-button" href={demoHref}>
           打开
         </a>
@@ -141,7 +149,7 @@ export function ShowcasePage() {
         </div>
       </section>
 
-      <section className="closer-section" aria-labelledby="closer-title">
+      <section className="closer-section" id="lens" aria-labelledby="closer-title">
         <div className="section-shell">
           <h2 id="closer-title">定睛细看</h2>
           <div className="viewer-card">
@@ -150,7 +158,7 @@ export function ShowcasePage() {
         </div>
       </section>
 
-      <section className="flow-section" aria-labelledby="flow-title">
+      <section className="flow-section" id="workflow" aria-labelledby="flow-title">
         <div className="section-shell flow-shell">
           <div>
             <p className="section-eyebrow">Workflow</p>
