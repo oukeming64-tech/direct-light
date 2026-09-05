@@ -22,9 +22,13 @@ A frontend-only web app, no backend. It optimizes for **communication, real-time
 
 > *Adjust the camera position → switch to the "lens" view and the camera's actual frame updates in real time.*
 
+## New: lighting plans
+
+Export plan downloads one offline, printable HTML file containing the camera image, top view, numbered lighting settings and editable scene. Import plan adds that file to saved presets without replacing the active scene. Referenced custom fixtures are included; external figure-model files are not. Positions are in meters; lighting settings are previz values, not calibrated measurements. This feature ships to the web app from main; the desktop package remains v1.0.5.
+
 ## Status
 
-Current public version: **`v1.0.5`**. The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
+Latest desktop package / tag: **`v1.0.5`**. The web app also includes the lighting-plan exchange added on 2026-09-05. The white-studio lighting-previz core is feature-complete, with full runtime localization in 简体中文 / English / 日本語.
 
 - `v1.0.0`: first stable major release; multilingual UI.
 - `v1.0.1`: free-drag clamped to the studio footprint.

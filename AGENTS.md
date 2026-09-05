@@ -27,6 +27,10 @@ Do not load every historical `V0_*_SPEC.md` by default. Completed specs live in 
 - Showcase-only work belongs under `showcase/`; do not touch main app code under `src/` for GitHub Pages/project-page changes.
 - `LIGHT_TYPE_LABELS` and `LIGHT_TARGET_MODE_LABELS` are unused but intentionally retained until a later Codex-approved cleanup.
 
+## Web / Main Update
+
+2026-09-05: lighting-plan HTML export/import ships on main and through the existing Pages deployment. See COLLABORATION and ARCHITECTURE for behavior and verification. Import creates saved presets and remapped custom fixtures; it does not replace the active scene. The tagged desktop package remains v1.0.5. Verify Pages deployment separately from source publication; user visual acceptance remains authoritative.
+
 ## Hard Boundaries
 
 - Language is an app preference, not scene data.

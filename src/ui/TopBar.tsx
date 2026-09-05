@@ -1,5 +1,6 @@
 import { useStore } from '../state/store'
 import { DEBUG_PRESETS } from '../data/rendering'
+import { LightingPlanActions } from './LightingPlanActions'
 import { exportPreviewImage } from './exportImage'
 import { useT, useLanguage } from '../i18n/useT'
 import { getDebugPresetTitle } from '../i18n/display'
@@ -89,6 +90,7 @@ export function TopBar() {
         >
           {t('topBar.exportImage')}
         </button>
+        <LightingPlanActions />
         <button
           type="button"
           onClick={resetScene}

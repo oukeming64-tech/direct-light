@@ -83,14 +83,14 @@ export function normalizeScene(scene: Partial<SceneConfig> | undefined): SceneCo
   const legacyScene = scene as LegacyScene | undefined
   const fallback = buildDefaultScene()
   const peopleSource =
-    Array.isArray(legacyScene?.people) && legacyScene.people.length > 0
+    Array.isArray(legacyScene?.people)
       ? legacyScene.people
       : legacyScene?.person
         ? [legacyScene.person]
         : fallback.people
   const people = peopleSource.map((person, index) => normalizePerson(person, index))
   const firstPersonId = people[0]?.id
-  const lightSource = Array.isArray(legacyScene?.lights) && legacyScene.lights.length > 0 ? legacyScene.lights : fallback.lights
+  const lightSource = Array.isArray(legacyScene?.lights) ? legacyScene.lights : fallback.lights
 
   return {
     studio: {

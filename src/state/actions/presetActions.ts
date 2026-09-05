@@ -2,14 +2,14 @@ import type { Store, StoreGet, StoreSet } from '../storeTypes'
 import type { LightingPreset } from '../../types'
 import { buildDefaultScene } from '../../data/defaults'
 import { normalizePreset, normalizeScene } from '../../domain/sceneMigration'
-import { newId, savePresets } from '../../lib/storage'
+import { newId, savePresets, saveCustomFixtures } from '../../lib/storage'
 
 export function createPresetActions(
   set: StoreSet,
   get: StoreGet,
 ): Pick<
   Store,
-  'resetScene' | 'applyDebugPreset' | 'savePreset' | 'loadPreset' | 'duplicatePreset' | 'renamePreset' | 'deletePreset'
+  'importLightingPlan' | 'resetScene' | 'applyDebugPreset' | 'savePreset' | 'loadPreset' | 'duplicatePreset' | 'renamePreset' | 'deletePreset'
 > {
   return {
     resetScene: () => set({ scene: buildDefaultScene(), selection: { kind: 'light', id: 'light-key' } }),
@@ -87,6 +87,23 @@ export function createPresetActions(
       const presets = [...s.presets, preset]
       if (!savePresets(presets)) return false
       set({ presets })
+      return true
+    },
+
+    importLightingPlan: (plan) => {
+      const s = get()
+      const ids = new Map(plan.customFixtures.map((f) => [f.id, newId('fixture')]))
+      const customFixtures = [...s.customFixtures, ...plan.customFixtures.map((f) => ({ ...f, id: ids.get(f.id)! }))]
+      const sceneSnapshot = structuredClone(plan.scene)
+      sceneSnapshot.lights = sceneSnapshot.lights.map((l) => ({ ...l, fixturePresetId: ids.get(l.fixturePresetId ?? '') ?? l.fixturePresetId }))
+      const presets = [...s.presets, { id: newId('preset'), name: plan.name, sceneSnapshot, createdAt: Date.now() }]
+      if (!saveCustomFixtures(customFixtures)) return false
+      if (!savePresets(presets)) {
+        // Existing presets are intact; restore the original fixture library.
+        if (!saveCustomFixtures(s.customFixtures)) set({ customFixtures })
+        return false
+      }
+      set({ presets, customFixtures })
       return true
     },
 

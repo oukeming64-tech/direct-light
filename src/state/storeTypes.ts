@@ -119,6 +119,7 @@ export type Store = {
 
   // presets (localStorage)
   savePreset: (name: string, previewImage?: string) => boolean
+  importLightingPlan: (plan: import('../domain/lightingPlan').LightingPlan) => boolean
   loadPreset: (id: string) => void
   duplicatePreset: (id: string) => boolean
   renamePreset: (id: string, name: string) => boolean

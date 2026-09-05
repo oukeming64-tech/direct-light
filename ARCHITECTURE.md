@@ -44,6 +44,12 @@ This is the short current architecture map. The full historical architecture not
 - Local persistence: `src/lib/storage.ts` returns write success; preset / fixture actions commit Zustand state only after a successful localStorage write, while UI modules own localized failure feedback.
 - Production chunking: `vite.config.ts` uses Vite 8 `rolldownOptions.output.codeSplitting` groups with explicit max sizes; do not replace this by increasing `chunkSizeWarningLimit`.
 
+## Lighting-plan exchange (web / main, 2026-09-05)
+
+- `src/domain/lightingPlan.ts` owns the versioned envelope, validation, top-view SVG and printable HTML. Embedded scene data remains `SceneConfig`; language is passed to the report renderer, not saved into scene data.
+- `src/ui/LightingPlanActions.tsx` owns camera-view capture, local download/file selection and feedback. It reads only inert JSON from an imported HTML file.
+- `src/state/actions/presetActions.ts` owns additive preset/fixture persistence. Imported fixture IDs are remapped; the active scene is not replaced. Preview images remain in the exported HTML and do not inflate preset storage.
+
 ## Documentation Note
 
 Changed in the 2026-06-29 cleanup: this root architecture doc was shortened to current boundaries and rules.

@@ -6,9 +6,9 @@ Archive map: [`docs/history/README.md`](docs/history/README.md). Read archived m
 
 ## Current State
 
-Date: 2026-07-11
+Date: 2026-09-05
 
-Released baseline: `v1.0.5`.
+Desktop/tagged baseline: `v1.0.5`. Web updates are deployed from main.
 
 - GitHub: https://github.com/oukeming64-tech/direct-light
 - Live app/demo: https://oukeming64-tech.github.io/direct-light/
@@ -17,6 +17,13 @@ Released baseline: `v1.0.5`.
 - GitHub Pages root `/direct-light/` remains the live app; `/direct-light/showcase/` is the GitHub visitor page.
 - Showcase implementation is isolated under `showcase/`; do not modify main app code under `src/` for project-page-only work.
 - `src-tauri/Cargo.lock` is committed. Refresh it with `.github/workflows/lockfile.yml` when needed; do not re-add inline `time` pins or ad hoc `cargo generate-lockfile` steps to release CI.
+
+## Web update · 2026-09-05 · lighting-plan exchange
+
+- Changed: added an offline HTML lighting-plan export with camera preview, top-view diagram, numbered light settings, referenced custom-fixture definitions and an embedded editable scene. The same HTML can be imported into saved presets; the current scene remains in place.
+- Changed: imported custom fixture IDs are remapped to preserve existing fixtures, file content is validated without executing HTML, and explicitly empty scene collections now survive normalization.
+- Not changed: scene/preset schema, lighting calculations, app language preferences, external figure-model distribution, dependencies, desktop package version or public URLs. This update uses the existing main-to-Pages deployment; it does not create a desktop release.
+- Verification: production build/type checks, focused scene round trip and browser export/import passed. Final visual preference remains with the user; desktop packaging has not been rebuilt.
 
 ## Latest Release Work and Documentation
 

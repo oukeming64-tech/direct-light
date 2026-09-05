@@ -29,13 +29,17 @@ The most important behavior remains:
 - Colored lights tint people and white studio surfaces.
 - White studio reflectance keeps shadows lighter and flatter than a black-box scene.
 
+## Available on main · web update
+
+2026-09-05: an offline lighting-plan file combines the camera preview, top view, light schedule and editable scene. Import adds a saved preset and its referenced custom fixtures. Further collaboration and cloud sharing remain candidates.
+
 ## Next Candidate Work
 
 These are invitation areas for real-use feedback and scoped proposals, not pre-approved features:
 
 - More realistic fixture / photometric data.
 - A full mobile/narrow-screen workspace beyond the current under-960px guidance gate.
-- More export/share flows for communicating lighting plans.
+- Additional sharing workflows beyond the local lighting-plan file.
 - Continued rendering polish when it fixes a concrete visual regression.
 
 Use [Discussions](https://github.com/oukeming64-tech/direct-light/discussions) to share workflow context or explore an early idea. Use [Issues](https://github.com/oukeming64-tech/direct-light/issues) for reproducible problems and proposals with a concrete scope. A roadmap candidate becomes implementation work only after that scope is agreed.
